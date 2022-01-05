@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="oth.wit.kapk_project.activities.MainActivity">
+    tools:context="oth.wit.kapk_project.activities.FoodCreateActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -6,4 +6,7 @@
     <string name="hint_productCategory">Product Category</string>
     <string name="hint_barcode">Barcode</string>
     <string name="github_token">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</string>
+    <string name="menu_createFood">Create</string>
+    <string name="menu_cancelFood">Cancel</string>
+    <string name="enter_food_information">Please enter at least the brand and the product name</string>
 </resources>
