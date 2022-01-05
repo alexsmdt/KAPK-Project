@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">KAPK-Project</string>
+    <string name="button_continue">Continue</string>
+    <string name="hint_brand">Brand/ Manufacturer</string>
+    <string name="hint_productName">Product Name</string>
+    <string name="hint_productCategory">Product Category</string>
+    <string name="hint_barcode">Barcode</string>
+    <string name="github_token">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</string>
 </resources>
