@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kapk_Project">
         <activity
+            android:name=".activities.NutritionalValuesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.FoodListActivity"
             android:exported="true">
             <intent-filter>
@@ -19,8 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FoodCreateActivity">
-        </activity>
+        <activity android:name=".activities.FoodCreateActivity"></activity>
     </application>
 
 </manifest>

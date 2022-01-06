@@ -32,6 +32,13 @@ class FoodMemStore : FoodStore {
         }
     }
 
+    override fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel) {
+        val foundFood: FoodModel? = foods.find { f -> f.id == food.id }
+        if (foundFood != null) {
+           foundFood.nutritionalValues = nutritionalValues
+        }
+    }
+
     override fun delete(food: FoodModel) {
         foods.remove(food)
     }

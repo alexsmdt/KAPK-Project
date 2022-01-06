@@ -5,4 +5,5 @@ interface FoodStore {
     fun create(food: FoodModel)
     fun update(food: FoodModel)
     fun delete(food: FoodModel)
+    fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel)
 }

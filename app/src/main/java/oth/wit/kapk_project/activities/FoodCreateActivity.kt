@@ -1,10 +1,13 @@
 package oth.wit.kapk_project.activities
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.snackbar.Snackbar
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityMainBinding
@@ -18,6 +21,7 @@ class FoodCreateActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     var food = FoodModel()
     lateinit var app: MainApp
+    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,8 @@ class FoodCreateActivity : AppCompatActivity() {
             binding.barcode.setText(food.barcode)
         }
 
-        binding.btnContinue.setOnClickListener() {
+        binding.btnContinue.setOnClickListener(){
+
             food.brand = binding.brand.text.toString()
             food.productName = binding.productName.text.toString()
             food.productCategory = binding.productCategory.text.toString()
@@ -62,6 +67,7 @@ class FoodCreateActivity : AppCompatActivity() {
             }
             i("continue Button Pressed: $food.brand ${food.productName}")
             setResult(RESULT_OK)
+            onContinueButtonPressed()
             finish()
         }
     }
@@ -76,5 +82,13 @@ class FoodCreateActivity : AppCompatActivity() {
             R.id.item_cancel -> { finish() }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    //TO-DO: rename this method
+    private fun onContinueButtonPressed() {
+        val launcherIntent = Intent(this, NutritionalValuesActivity::class.java)
+        launcherIntent.putExtra("food", food)
+        startActivity(launcherIntent)
+        //refreshIntentLauncher.launch(launcherIntent)
     }
 }
