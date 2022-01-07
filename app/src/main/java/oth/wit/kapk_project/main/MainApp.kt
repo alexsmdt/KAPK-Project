@@ -1,6 +1,7 @@
 package oth.wit.kapk_project.main
 
 import android.app.Application
+import oth.wit.kapk_project.models.FoodJSONStore
 import oth.wit.kapk_project.models.FoodMemStore
 import oth.wit.kapk_project.models.FoodStore
 import timber.log.Timber
@@ -13,7 +14,8 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        foods = FoodMemStore()
+        //foods = FoodMemStore()
+        foods = FoodJSONStore(applicationContext)
         i("Placemark started")
     }
 

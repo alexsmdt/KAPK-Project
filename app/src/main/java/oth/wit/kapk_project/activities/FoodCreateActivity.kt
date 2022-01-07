@@ -86,8 +86,11 @@ class FoodCreateActivity : AppCompatActivity() {
 
     //TO-DO: rename this method
     private fun onContinueButtonPressed() {
+        i("onContinueButtonPressed")
         val launcherIntent = Intent(this, NutritionalValuesActivity::class.java)
         launcherIntent.putExtra("food", food)
+        if (intent.hasExtra("food_edit"))
+            launcherIntent.putExtra("food_edit", true)
         startActivity(launcherIntent)
         //refreshIntentLauncher.launch(launcherIntent)
     }
