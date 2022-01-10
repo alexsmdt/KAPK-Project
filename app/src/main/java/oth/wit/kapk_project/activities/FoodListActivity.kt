@@ -8,18 +8,23 @@ import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.getValue
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.adapters.FoodAdapter
 import oth.wit.kapk_project.adapters.FoodListener
 import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
+import timber.log.Timber
 
 
 class FoodListActivity : AppCompatActivity(), FoodListener {
     lateinit var app: MainApp
     private lateinit var binding : ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    var db : DatabaseReference = FirebaseDatabase.getInstance("https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app").getReference("foods")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +70,15 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     }
 
     private fun loadFoods() {
-        showFoods(app.foods.findAll())
+        db.get().addOnSuccessListener {
+            Timber.i("firebase Got value ${it.value}")
+            val map = it.getValue<HashMap<String, FoodModel>>() as HashMap<String, FoodModel>
+            //app.foods.foods = ArrayList(map.values).toMutableList()
+            showFoods(ArrayList(map.values).toMutableList())
+        }.addOnFailureListener{
+            Timber.i("firebase Error getting data")
+        }
+        //showFoods(app.foods.findAll())
     }
 
     fun showFoods (foods: List<FoodModel>) {

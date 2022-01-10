@@ -15,6 +15,7 @@ data class FoodModel(var id: Long = 0,
 
 @Parcelize
 data class FoodModel(var id: Long = 0,
+                     var fbId: String = "",
                      var brand : String = "",
                      var productName : String= "",
                      var productCategory : String = "",
