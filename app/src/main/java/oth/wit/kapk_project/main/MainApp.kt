@@ -11,13 +11,16 @@ import timber.log.Timber.i
 class MainApp : Application() {
 
     lateinit var foods : FoodStore
+    lateinit var consumedFoods : FoodStore
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         //foods = FoodMemStore()
-        //foods = FoodJSONStore(applicationContext)
-        foods = FoodFireStore(applicationContext)
+        foods = FoodJSONStore(applicationContext)
+        //foods = FoodFireStore(applicationContext)
+        consumedFoods = FoodJSONStore(applicationContext)
+
         i("Placemark started")
     }
 

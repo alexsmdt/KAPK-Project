@@ -16,4 +16,11 @@
     <string name="menu_cancelFood">Cancel</string>
     <string name="enter_food_information">Please enter at least the brand and the product name</string>
     <string name="enter_nutritional_information">Please enter the required information</string>
+    <string name="hint_date">Today</string>
+    <string name="hint_breakfast">Breakfast</string>
+    <string name="hint_lunch">Lunch</string>
+    <string name="hint_dinner">Dinner</string>
+    <string name="hint_snacks">Snacks</string>
+    <string name="hint_caloriesAmount">"0"</string>
+    <string name="default_web_client_id">1040330250217-50o0gq96734gabocrkvaor5l60goboh2.apps.googleusercontent.com</string>
 </resources>

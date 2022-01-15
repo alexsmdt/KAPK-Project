@@ -11,6 +11,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kapk_Project">
         <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.FoodAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.OverviewActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.NutritionalValuesActivity"
             android:exported="false" />
         <activity
@@ -22,7 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FoodCreateActivity"></activity>
+        <activity android:name=".activities.FoodCreateActivity" />
     </application>
 
 </manifest>

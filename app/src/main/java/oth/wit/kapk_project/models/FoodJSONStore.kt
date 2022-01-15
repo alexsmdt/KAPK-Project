@@ -80,6 +80,22 @@ class FoodJSONStore(private val context: Context) : FoodStore {
         foods.forEach { Timber.i("$it") }
     }
 
+    override fun add(food : FoodModel) {
+        foods.add(food)
+        serialize()
+    }
+
+    override fun changeNutritionalInformation(factor: Int, id : Long) {
+        val foundFood: FoodModel? = foods.find { f -> f.id == id }
+        if (foundFood != null) {
+            foundFood.nutritionalValues.fat *= factor
+            foundFood.nutritionalValues.calories *= factor
+            foundFood.nutritionalValues.carbs *= factor
+            foundFood.nutritionalValues.protein *= factor
+        }
+        serialize()
+    }
+
 }
 
 class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {

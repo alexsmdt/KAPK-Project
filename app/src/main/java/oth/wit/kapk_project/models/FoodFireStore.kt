@@ -1,8 +1,6 @@
 package oth.wit.kapk_project.models
 
 import android.content.Context
-import com.google.android.gms.tasks.Tasks
-import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database

@@ -40,6 +40,9 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         loadFoods()
 
         registerRefreshCallback()
+
+        setResult(RESULT_OK)
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -57,9 +60,11 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         return super.onOptionsItemSelected(item)
     }
 
+    //Wieso on PlacemarkClick()?
     override fun onPlacemarkClick(food: FoodModel) {
-        val launcherIntent = Intent(this, FoodCreateActivity::class.java)
-        launcherIntent.putExtra("food_edit", food)
+        val launcherIntent = Intent(this, FoodAddActivity::class.java)
+        //launcherIntent.putExtra("food_edit", food)
+        launcherIntent.putExtra("food", food)
         refreshIntentLauncher.launch(launcherIntent)
     }
 
@@ -70,6 +75,7 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     }
 
     private fun loadFoods() {
+        /*
         db.get().addOnSuccessListener {
             Timber.i("firebase Got value ${it.value}")
             val map = it.getValue<HashMap<String, FoodModel>>() as HashMap<String, FoodModel>
@@ -78,7 +84,9 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         }.addOnFailureListener{
             Timber.i("firebase Error getting data")
         }
-        //showFoods(app.foods.findAll())
+
+         */
+        showFoods(app.foods.findAll())
     }
 
     fun showFoods (foods: List<FoodModel>) {

@@ -6,4 +6,6 @@ interface FoodStore {
     fun update(food: FoodModel)  //TODO("update for nutritions" in every implementation of this interface)
     fun delete(food: FoodModel)
     fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel)
+    fun add(food : FoodModel)
+    fun changeNutritionalInformation(factor : Int, id : Long)
 }
