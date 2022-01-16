@@ -49,8 +49,15 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }
+        when (item.itemId) {
+            R.id.item_back -> {
+                finish()
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
+
+
 
     override fun onPlacemarkClick(food: FoodModel) {
         val launcherIntent = Intent(this, FoodCreateActivity::class.java)

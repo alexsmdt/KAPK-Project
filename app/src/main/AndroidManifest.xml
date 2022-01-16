@@ -9,12 +9,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.Kapk_Project">
         <activity
-            android:name=".activities.NutritionalValuesActivity"
+            android:name=".activities.GoogleLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.FoodListActivity"
+            android:name=".activities.MainMenuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FoodCreateActivity"></activity>
+        <activity
+            android:name=".activities.NutritionalValuesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.FoodListActivity"
+            android:exported="true" />
+        <activity android:name=".activities.FoodCreateActivity" />
     </application>
 
 </manifest>
