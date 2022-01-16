@@ -10,12 +10,13 @@ import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.databinding.CardFoodBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
+import oth.wit.kapk_project.models.FoodStore
 
 interface FoodListener {
     fun onPlacemarkClick(food: FoodModel)
 }
 
-class FoodAdapter constructor(private var foods: List<FoodModel>,
+class FoodAdapter constructor(private var foods: FoodStore,
                               private val listener: FoodListener) :
     RecyclerView.Adapter<FoodAdapter.MainHolder>() {
 
@@ -31,7 +32,9 @@ class FoodAdapter constructor(private var foods: List<FoodModel>,
         holder.bind(placemark, listener)
     }
 
-    override fun getItemCount(): Int = foods.size
+    override fun getItemCount(): Int {
+        return foods.count()
+    }
 
     class MainHolder(private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {

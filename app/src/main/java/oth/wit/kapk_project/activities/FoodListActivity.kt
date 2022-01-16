@@ -14,6 +14,7 @@ import oth.wit.kapk_project.adapters.FoodListener
 import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
+import oth.wit.kapk_project.models.FoodStore
 
 
 class FoodListActivity : AppCompatActivity(), FoodListener {
@@ -25,7 +26,7 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         super.onCreate(savedInstanceState)
         binding = ActivityFoodListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbar.title = title
+        intent.getStringExtra("meal").also { binding.toolbar.title = it }
         setSupportActionBar(binding.toolbar)
 
         app = application as MainApp
@@ -72,10 +73,10 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     }
 
     private fun loadFoods() {
-        showFoods(app.foods.findAll())
+        showFoods(app.foods)
     }
 
-    fun showFoods (foods: List<FoodModel>) {
+    fun showFoods (foods: FoodStore) {
         binding.recyclerView.adapter = FoodAdapter(foods, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }

@@ -1,9 +1,26 @@
 package oth.wit.kapk_project.models
 
+
 interface FoodStore {
-    fun findAll(): List<FoodModel>
-    fun create(food: FoodModel)
-    fun update(food: FoodModel)
-    fun delete(food: FoodModel)
-    fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel)
+
+    fun add(food : FoodModel) : Boolean
+    fun remove(food : FoodModel) : Boolean
+    fun clear()
+    fun listIterator() : MutableListIterator<FoodModel>
+    fun contains(food : FoodModel) : Boolean
+    fun find(food : FoodModel) : FoodModel?
+    fun count() : Int
+    operator fun get(index : Int) : FoodModel
+
+    public fun sumNutritionalValues() : NutritionalValues {
+        var nv = NutritionalValues(ServingSize(),0.0,0.0,0.0,0.0)
+        for (food in listIterator()) {
+            nv.caloriesInKcal += food.nutritionalValues.caloriesInKcal
+            nv.carbsInG += food.nutritionalValues.carbsInG
+            nv.fatInG += food.nutritionalValues.fatInG
+            nv.proteinInG += food.nutritionalValues.proteinInG
+        }
+        return nv
+    }
+
 }

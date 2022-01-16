@@ -13,7 +13,9 @@
         <entry key="app/src/main/res/layout/activity_main_menu.xml" value="0.22552083333333334" />
         <entry key="app/src/main/res/layout/activity_nutritional_values.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_overview.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/car_food.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/menu/menu_food.xml" value="0.21770833333333334" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.22552083333333334" />
       </map>
     </option>

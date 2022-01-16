@@ -11,38 +11,38 @@ internal fun getId() : Long {
 class FoodMemStore : FoodStore {
     val foods = ArrayList<FoodModel>()
 
-    override fun findAll(): List<FoodModel> {
-        return foods
+
+    override fun add(food: FoodModel): Boolean {
+        TODO("Not yet implemented")
     }
 
-    override fun create(food: FoodModel) {
-        food.id = getId()
-        foods.add(food)
-        logAll()
+    override fun remove(food: FoodModel): Boolean {
+        TODO("Not yet implemented")
     }
 
-    override fun update(food: FoodModel) {
-        val foundFood: FoodModel? = foods.find { f -> f.id == food.id }
-        if (foundFood != null) {
-            foundFood.brand = food.brand
-            foundFood.productName = food.productName
-            foundFood.productCategory = food.productCategory
-            foundFood.barcode = food.barcode
-            logAll()
-        }
+    override fun clear() {
+        TODO("Not yet implemented")
     }
 
-    override fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel) {
-        val foundFood: FoodModel? = foods.find { f -> f.id == food.id }
-        if (foundFood != null) {
-           foundFood.nutritionalValues = nutritionalValues
-        }
+    override fun listIterator(): MutableListIterator<FoodModel> {
+        TODO("Not yet implemented")
     }
 
-    override fun delete(food: FoodModel) {
-        foods.remove(food)
+    override fun contains(food: FoodModel): Boolean {
+        TODO("Not yet implemented")
     }
 
+    override fun find(food: FoodModel): FoodModel? {
+        TODO("Not yet implemented")
+    }
+
+    override fun count(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override fun get(index: Int): FoodModel {
+        TODO("Not yet implemented")
+    }
 
     fun logAll() {
         foods.forEach{ i("$it") }

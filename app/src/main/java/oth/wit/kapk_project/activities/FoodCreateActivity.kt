@@ -13,13 +13,14 @@ import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityMainBinding
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.main.MainApp
+import oth.wit.kapk_project.models.NutritionalValues
 import timber.log.Timber
 import timber.log.Timber.i
 
 class FoodCreateActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
-    var food = FoodModel()
+    lateinit var food : FoodModel
     lateinit var app: MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
@@ -30,13 +31,13 @@ class FoodCreateActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarContinue.title = title
+        binding.toolbarContinue.title = "Register Food"
         setSupportActionBar(binding.toolbarContinue)
 
 
         app = application as MainApp
 
-        i("Placemark Activity started...")
+        i("ALEX Food Activity started...")
 
         if (intent.hasExtra("food_edit")) {
             edit = true
@@ -48,24 +49,28 @@ class FoodCreateActivity : AppCompatActivity() {
         }
 
         binding.btnContinue.setOnClickListener(){
+            i("ALEX start OnClickListener")
 
-            food.brand = binding.brand.text.toString()
-            food.productName = binding.productName.text.toString()
-            food.productCategory = binding.productCategory.text.toString()
-            food.barcode = binding.barcode.text.toString()
+            var productName = binding.productName.text.toString()
 
-            if (food.brand.isEmpty() || food.productName.isEmpty()) {
+            if (productName.isEmpty()) {
+                i("ALEX Empty")
                 Snackbar
                     .make(it,R.string.enter_food_information, Snackbar.LENGTH_LONG)
                     .show()
             } else {
                 if (edit) {
-                    app.foods.update(food.copy())
+                    //app.foods.update(food.copy())
                 } else {
-                    app.foods.create(food.copy())
+                    food = FoodModel(0,
+                        binding.brand.text.toString(),
+                        productName,
+                        binding.productCategory.text.toString(),
+                        binding.barcode.text.toString())
+                    i("ALEX $it")
                 }
             }
-            i("continue Button Pressed: $food.brand ${food.productName}")
+            i("ALEX continue Button Pressed: $food.brand ${food.productName}")
             setResult(RESULT_OK)
             onContinueButtonPressed()
             finish()

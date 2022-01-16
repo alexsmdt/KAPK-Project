@@ -1,14 +1,14 @@
 package oth.wit.kapk_project.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
-import oth.wit.kapk_project.R
-import oth.wit.kapk_project.databinding.ActivityMainBinding
 import oth.wit.kapk_project.databinding.ActivityMainMenuBinding
 import oth.wit.kapk_project.main.MainApp
-import oth.wit.kapk_project.models.FoodModel
+import oth.wit.kapk_project.models.NutritionalValues
+import oth.wit.kapk_project.models.ServingSize
 import timber.log.Timber
 
 class MainMenuActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class MainMenuActivity : AppCompatActivity() {
 
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarOverview.title = "Heute"
+        binding.toolbarOverview.title = "Today"
         setSupportActionBar(binding.toolbarOverview)
 
 
@@ -31,19 +31,19 @@ class MainMenuActivity : AppCompatActivity() {
         setTextViews()
 
         binding.breakfastButton.setOnClickListener() {
-            buttonPressed("breakfast")
+            buttonPressed("Breakfast")
         }
 
         binding.lunchButton.setOnClickListener() {
-            buttonPressed("lunch")
+            buttonPressed("Lunch")
         }
 
         binding.dinnerButton.setOnClickListener() {
-            buttonPressed("dinner")
+            buttonPressed("Dinner")
         }
 
         binding.snacksButton.setOnClickListener() {
-            buttonPressed("snacks")
+            buttonPressed("Snacks")
         }
 
 
@@ -56,42 +56,15 @@ class MainMenuActivity : AppCompatActivity() {
         startActivity(launcherIntent)
     }
 
-    private fun sumCalories() : Int{
-        var count = 0
-        for (food in app.consumedFoods.findAll()) {
-            count += food.nutritionalValues.calories
-        }
-        return count
-    }
 
-    private fun sumCarbs() : Int{
-        var count = 0
-        for (food in app.consumedFoods.findAll()) {
-            count += food.nutritionalValues.carbs
-        }
-        return count
-    }
-
-    private fun sumProtein() : Int{
-        var count = 0
-        for (food in app.consumedFoods.findAll()) {
-            count += food.nutritionalValues.protein
-        }
-        return count
-    }
-
-    private fun sumFat() : Int{
-        var count = 0
-        for (food in app.consumedFoods.findAll()) {
-            count += food.nutritionalValues.fat
-        }
-        return count
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
-        binding.caloriesTextView.text = sumCalories().toString()
-        binding.carbsTextNumber.setText(sumCarbs().toString())
-        binding.proteinTextNumber.setText(sumProtein().toString())
-        binding.fatTextNumber.setText(sumFat().toString())
+        val nv = app.consumedFoods.sumNutritionalValues()
+        binding.caloriesTextView.text = "${nv.caloriesInKcal} kcal"
+        binding.carbsTextNumber.setText("${nv.carbsInG} g")
+        binding.proteinTextNumber.setText("${nv.proteinInG} g")
+        binding.fatTextNumber.setText("${nv.fatInG} g")
     }
+
+
 }

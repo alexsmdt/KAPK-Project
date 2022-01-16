@@ -1,15 +1,16 @@
 package oth.wit.kapk_project.models
 
+import UriParser
 import android.content.Context
 import android.net.Uri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import oth.wit.kapk_project.helpers.*
 import timber.log.Timber
+import timber.log.Timber.i
 import java.lang.reflect.Type
 import java.util.*
 
-const val JSON_FILE = "placemarks.json"
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
@@ -19,60 +20,66 @@ fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
-class FoodJSONStore(private val context: Context) : FoodStore {
+class FoodJSONStore(private val context: Context, fileName : String) : FoodStore {
+
+    private val jsonFile = "$fileName.json"
 
     var foods = mutableListOf<FoodModel>()
 
     init {
-        if (exists(context, JSON_FILE)) {
+        if (exists(context, jsonFile)) {
             deserialize()
         }
     }
 
-    override fun findAll(): MutableList<FoodModel> {
-        logAll()
-        return foods
+    override fun add(food: FoodModel): Boolean {
+        i("ALEX FoodJSONStore($jsonFile): add $food")
+        var ret = foods.add(food)
+        if (ret)
+            serialize()
+        return ret
     }
 
-    override fun create(food: FoodModel) {
-        food.id = generateRandomId()
-        foods.add(food)
+    override fun remove(food: FoodModel): Boolean {
+        var ret = foods.remove(food)
+        if (ret)
+            serialize()
+        return ret
+    }
+
+    override fun clear() {
+        foods.clear()
         serialize()
     }
 
-
-    override fun update(food: FoodModel) {
-        val foundFood: FoodModel? = foods.find { f -> f.id == food.id }
-        if (foundFood != null) {
-            foundFood.brand = food.brand
-            foundFood.productName = food.productName
-            foundFood.productCategory = food.productCategory
-            foundFood.barcode = food.barcode
-            logAll()
-        }
-        serialize()
+    override fun contains(food: FoodModel): Boolean {
+        return foods.contains(food)
     }
 
-    override fun delete(food: FoodModel) {
-        foods.remove(food)
-        serialize()
+    override fun find(food: FoodModel): FoodModel? {
+        return foods.find{f -> f == food}
     }
 
-    override fun addNutritionalInformation(nutritionalValues: NutritionalValues, food: FoodModel) {
-        val foundFood: FoodModel? = foods.find { f -> f.id == food.id }
-        if (foundFood != null) {
-            foundFood.nutritionalValues = nutritionalValues
-        }
-        serialize()
+    override fun listIterator(): MutableListIterator<FoodModel> {
+        return foods.listIterator()
+    }
+
+    override fun count(): Int {
+        return foods.count()
+    }
+
+    override fun get(index: Int) : FoodModel{
+        return foods[index]
     }
 
     private fun serialize() {
+        i("ALEX FoodJSONStore($jsonFile): serialize")
         val jsonString = gsonBuilder.toJson(foods, listType)
-        write(context, JSON_FILE, jsonString)
+        write(context, jsonFile, jsonString)
     }
 
     private fun deserialize() {
-        val jsonString = read(context, JSON_FILE)
+        val jsonString = read(context, jsonFile)
         foods = gsonBuilder.fromJson(jsonString, listType)
     }
 
@@ -80,22 +87,4 @@ class FoodJSONStore(private val context: Context) : FoodStore {
         foods.forEach { Timber.i("$it") }
     }
 
-}
-
-class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
-    override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): Uri {
-        return Uri.parse(json?.asString)
-    }
-
-    override fun serialize(
-        src: Uri?,
-        typeOfSrc: Type?,
-        context: JsonSerializationContext?
-    ): JsonElement {
-        return JsonPrimitive(src.toString())
-    }
 }
