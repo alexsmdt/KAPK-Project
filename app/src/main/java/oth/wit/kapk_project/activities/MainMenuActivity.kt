@@ -5,11 +5,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import oth.wit.kapk_project.databinding.ActivityMainMenuBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.NutritionalValues
 import oth.wit.kapk_project.models.ServingSize
 import timber.log.Timber
+import timber.log.Timber.i
 
 class MainMenuActivity : AppCompatActivity() {
 
@@ -46,24 +48,33 @@ class MainMenuActivity : AppCompatActivity() {
             buttonPressed("Snacks")
         }
 
-
+        registerRefreshCallback()
     }
 
     private fun buttonPressed (meal : String) {
+        i("ALEX button pressed")
         Timber.i("button pressed: %s", meal)
         val launcherIntent = Intent(this, FoodListActivity::class.java)
         launcherIntent.putExtra("meal", meal)
-        startActivity(launcherIntent)
+        refreshIntentLauncher.launch(launcherIntent)
     }
 
 
     @SuppressLint("SetTextI18n")
     private fun setTextViews() {
+        i("ALEX setTextViews")
         val nv = app.consumedFoods.sumNutritionalValues()
         binding.caloriesTextView.text = "${nv.caloriesInKcal} kcal"
         binding.carbsTextNumber.setText("${nv.carbsInG} g")
         binding.proteinTextNumber.setText("${nv.proteinInG} g")
         binding.fatTextNumber.setText("${nv.fatInG} g")
+    }
+
+    private fun registerRefreshCallback() {
+        i("ALEX registerRefreshCallback")
+        refreshIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {setTextViews()}
     }
 
 

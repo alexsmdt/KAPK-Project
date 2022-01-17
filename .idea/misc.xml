@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.10703125" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_consumed_food.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_food_add.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/activity_food_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_google_login.xml" value="0.21145833333333333" />
@@ -17,6 +18,7 @@
         <entry key="app/src/main/res/layout/car_food.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/menu/menu_food.xml" value="0.21770833333333334" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/menu/menu_nutritions.xml" value="0.19212962962962962" />
       </map>
     </option>
   </component>

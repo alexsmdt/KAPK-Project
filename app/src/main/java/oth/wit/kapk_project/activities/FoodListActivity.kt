@@ -15,18 +15,21 @@ import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
+import timber.log.Timber.i
 
 
 class FoodListActivity : AppCompatActivity(), FoodListener {
     lateinit var app: MainApp
     private lateinit var binding : ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var meal : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFoodListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        intent.getStringExtra("meal").also { binding.toolbar.title = it }
+        meal = intent.getStringExtra("meal").toString()
+        binding.toolbar.title = meal
         setSupportActionBar(binding.toolbar)
 
         app = application as MainApp
@@ -60,10 +63,12 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
 
 
 
-    override fun onPlacemarkClick(food: FoodModel) {
-        val launcherIntent = Intent(this, FoodCreateActivity::class.java)
-        launcherIntent.putExtra("food_edit", food)
-        refreshIntentLauncher.launch(launcherIntent)
+    override fun onFoodClick(food: FoodModel) {
+        i("ALEX FoodListActivity.onFoodClick: $food")
+        val launcherIntent = Intent(this, AddConsumedFoodActivity::class.java)
+        launcherIntent.putExtra("food", food)
+        launcherIntent.putExtra("meal", meal)
+        startActivity(launcherIntent)
     }
 
     private fun registerRefreshCallback() {

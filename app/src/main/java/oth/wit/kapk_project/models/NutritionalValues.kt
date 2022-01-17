@@ -10,4 +10,14 @@ data class NutritionalValues(var servingSize : ServingSize = ServingSize(),
                              var fatInG : Double = 0.0,
                              var carbsInG : Double = 0.0,
                              var proteinInG : Double = 0.0) : Parcelable
+{
+    fun updateServingSize(amount : Double) {
+        var factor = amount / servingSize.amount
+        caloriesInKcal *= factor
+        fatInG *= factor
+        carbsInG *= factor
+        proteinInG *= factor
+        servingSize.amount = amount
+    }
+}
 

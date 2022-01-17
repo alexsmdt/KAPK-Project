@@ -3,6 +3,11 @@ package oth.wit.kapk_project.activities
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityNutritionalValuesBinding
@@ -18,6 +23,9 @@ class NutritionalValuesActivity : AppCompatActivity() {
     private lateinit var binding : ActivityNutritionalValuesBinding
     lateinit var app: MainApp
     var food = FoodModel()
+    private lateinit var spinner : Spinner
+    private var unitSpecification: UnitSpecification = UnitSpecification.GRAM
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +41,33 @@ class NutritionalValuesActivity : AppCompatActivity() {
 
 
         app = application as MainApp
+
+
+
+        spinner = binding.spinner
+
+        val units = arrayOf("g", "ml")
+
+        spinner.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, units)
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when(position) {
+                    0 -> unitSpecification = UnitSpecification.GRAM
+                    1 -> unitSpecification = UnitSpecification.MILLILITER
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
 
         i("before intent usage")
 
@@ -52,8 +87,8 @@ class NutritionalValuesActivity : AppCompatActivity() {
             nutritionalValues.fatInG = binding.fat.text.toString().toDouble()
             nutritionalValues.proteinInG = binding.protein.text.toString().toDouble()
             nutritionalValues.carbsInG = binding.carbs.text.toString().toDouble()
-            val sz = binding.servingSize.text.toString().split(" ")
-            nutritionalValues.servingSize = ServingSize(sz[0].toDouble(), UnitSpecification.GRAM)
+            val sz = binding.servingSize.text.toString()
+            nutritionalValues.servingSize = ServingSize(sz.toDouble(), unitSpecification)
             /*
             if (nutritionalValues.servingSize == ServingSize()) {
                 Snackbar

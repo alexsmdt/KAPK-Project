@@ -1,19 +1,14 @@
 package oth.wit.kapk_project.adapters
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.databinding.CardFoodBinding
-import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
 
 interface FoodListener {
-    fun onPlacemarkClick(food: FoodModel)
+    fun onFoodClick(food: FoodModel)
 }
 
 class FoodAdapter constructor(private var foods: FoodStore,
@@ -42,7 +37,7 @@ class FoodAdapter constructor(private var foods: FoodStore,
         fun bind(food: FoodModel, listener : FoodListener) {
             binding.brand.text = food.brand
             binding.productName.text = food.productName
-            binding.root.setOnClickListener { listener.onPlacemarkClick(food) }
+            binding.root.setOnClickListener { listener.onFoodClick(food) }
         }
     }
 }

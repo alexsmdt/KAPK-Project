@@ -40,19 +40,34 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/servingSize"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_margin="8dp"
-                    android:autofillHints="hint"
-                    android:hint="@string/hint_servingSize"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/servingSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:autofillHints="hint"
+                        android:hint="@string/hint_servingSize"
+                        android:inputType="text"
+                        android:maxLength="25"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/calories"
@@ -127,4 +142,5 @@
         </ScrollView>
 
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

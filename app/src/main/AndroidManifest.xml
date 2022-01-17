@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="oth.wit.kapk_project" >
+    package="oth.wit.kapk_project">
 
     <application
         android:name=".main.MainApp"
@@ -10,14 +10,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Kapk_Project" >
-
+        android:theme="@style/Theme.Kapk_Project">
+        <activity
+            android:name=".activities.AddConsumedFoodActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.GoogleLoginActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainMenuActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
