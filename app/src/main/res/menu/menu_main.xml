@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_back"
-        android:icon="@android:drawable/ic_input_delete"
-        android:title="@string/menu_createFood"
-        app:showAsAction="always" />
+        android:id="@+id/item_cancel"
+        android:title="@string/menu_cancelFood"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/item_add"
         android:icon="@android:drawable/ic_menu_add"

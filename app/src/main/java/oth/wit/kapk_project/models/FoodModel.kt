@@ -14,12 +14,13 @@ data class FoodModel(var id: Long = 0,
 
 
 @Parcelize
-data class FoodModel(var id: Long = 0,
-                     var brand : String = "",
+data class FoodModel(var brand : String = "",
                      var productName : String = "",
-                     var productCategory : String = "",
+                     var productCategory : ProductCategory = ProductCategory.MISCELLANEOUS,
                      var barcode : String = "",
-                     var nutritionalValues: NutritionalValues = NutritionalValues(ServingSize(), 0.0, 0.0, 0.0, 0.0)) : Parcelable
+                     var nutritionalValues: NutritionalValues = NutritionalValues(ServingSize(), 0.0, 0.0, 0.0, 0.0),
+                     var meal : MealType = MealType.OTHER) : Parcelable
+
 
 
 

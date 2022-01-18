@@ -9,28 +9,30 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import oth.wit.kapk_project.R
+import oth.wit.kapk_project.adapters.ConsumedFoodAdapter
+import oth.wit.kapk_project.adapters.ConsumedFoodListener
 import oth.wit.kapk_project.adapters.FoodAdapter
 import oth.wit.kapk_project.adapters.FoodListener
+import oth.wit.kapk_project.databinding.ActivityConsumedMealBinding
 import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
 import oth.wit.kapk_project.models.MealType
-import timber.log.Timber.i
+import timber.log.Timber
 
-
-class FoodListActivity : AppCompatActivity(), FoodListener {
+class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
     lateinit var app: MainApp
-    private lateinit var binding : ActivityFoodListBinding
+    private lateinit var binding : ActivityConsumedMealBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var meal : MealType
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFoodListBinding.inflate(layoutInflater)
+        binding = ActivityConsumedMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
         meal = MealType.valueOf(intent.getStringExtra("meal").toString())
-        binding.toolbar.title = " Add to " + meal.printableName
+        binding.toolbar.title = meal.printableName
         setSupportActionBar(binding.toolbar)
 
         app = application as MainApp
@@ -50,7 +52,8 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                val launcherIntent = Intent(this, FoodCreateActivity::class.java)
+                val launcherIntent = Intent(this, FoodListActivity::class.java)
+                launcherIntent.putExtra("meal", meal.name)
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }
@@ -62,15 +65,15 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-
     override fun onFoodClick(food: FoodModel) {
-        i("ALEX FoodListActivity.onFoodClick: $food")
+        Timber.i("ALEX FoodListActivity.onFoodClick: $food")
         val launcherIntent = Intent(this, AddConsumedFoodActivity::class.java)
         launcherIntent.putExtra("food", food)
         launcherIntent.putExtra("meal", meal.name)
-        startActivity(launcherIntent)
+        launcherIntent.putExtra("edit", true)
+        refreshIntentLauncher.launch(launcherIntent)
     }
+
 
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
@@ -79,12 +82,11 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     }
 
     private fun loadFoods() {
-        showFoods(app.foods)
+        showFoods(app.consumedFoods.getMeal(meal))
     }
 
-    fun showFoods (foods: FoodStore) {
-        binding.recyclerView.adapter = FoodAdapter(foods, this)
+    fun showFoods (foods: MutableList<FoodModel>) {
+        binding.recyclerView.adapter = ConsumedFoodAdapter(foods, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
-
 }

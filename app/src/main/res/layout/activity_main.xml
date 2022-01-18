@@ -68,19 +68,34 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/productCategory"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_margin="8dp"
-                    android:autofillHints="hint"
-                    android:hint="@string/hint_productCategory"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/productCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:autofillHints="hint"
+                        android:hint="@string/hint_productCategory"
+                        android:inputType="text"
+                        android:maxLength="25"
+                        android:padding="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/barcode"

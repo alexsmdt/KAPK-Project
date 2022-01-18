@@ -213,13 +213,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
-                    <Button
-                        android:id="@+id/button"
+                    <ImageButton
+                        android:id="@+id/editImageButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
-                        android:text="Add" />
+                        android:layout_weight="1"
+                        android:visibility="visible"
+                        app:srcCompat="@android:drawable/ic_menu_edit" />
 
+                    <ImageButton
+                        android:id="@+id/addImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/ic_menu_add" />
+
+                    <ImageButton
+                        android:id="@+id/deleteImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/ic_menu_delete" />
                 </TableRow>
             </TableLayout>
         </ScrollView>

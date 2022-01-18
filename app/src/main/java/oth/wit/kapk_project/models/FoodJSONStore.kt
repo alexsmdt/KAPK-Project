@@ -47,6 +47,14 @@ class FoodJSONStore(private val context: Context, fileName : String) : FoodStore
         return ret
     }
 
+    override fun replace(oldFood: FoodModel, newFood: FoodModel): Boolean {
+        if (remove(oldFood))
+            i("ALEX Food removed")
+        else
+            i("ALEX Food not removed $oldFood")
+        return add(newFood)
+    }
+
     override fun clear() {
         foods.clear()
         serialize()

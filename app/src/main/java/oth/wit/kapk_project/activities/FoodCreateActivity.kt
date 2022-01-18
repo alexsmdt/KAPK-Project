@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import com.google.android.material.snackbar.Snackbar
 import oth.wit.kapk_project.R
@@ -14,6 +17,8 @@ import oth.wit.kapk_project.databinding.ActivityMainBinding
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.NutritionalValues
+import oth.wit.kapk_project.models.ProductCategory
+import oth.wit.kapk_project.models.UnitSpecification
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -23,6 +28,8 @@ class FoodCreateActivity : AppCompatActivity() {
     lateinit var food : FoodModel
     lateinit var app: MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var spinner : Spinner
+    private var productCategory: ProductCategory = ProductCategory.MISCELLANEOUS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +46,33 @@ class FoodCreateActivity : AppCompatActivity() {
 
         i("ALEX Food Activity started...")
 
-        if (intent.hasExtra("food_edit")) {
-            edit = true
-            food = intent.extras?.getParcelable("food_edit")!!
-            binding.brand.setText(food.brand)
-            binding.productName.setText(food.productName)
-            binding.productCategory.setText(food.productCategory)
-            binding.barcode.setText(food.barcode)
+
+        spinner = binding.spinner
+
+        //val categories = ProductCategory.values().forEach { ProductCategory -> ProductCategory.printableName }
+
+        val categories = ProductCategory.values().map{ ProductCategory -> ProductCategory.printableName }
+
+        //val categories = arrayOf("Miscellaneous", "Energy Drink", "Baked Goods", "Fish Products", "Meat", "Vegetables",
+         //  "Vegetables", "Vegetarian", "Vegan", "Dessert", "Cereal Products", "Beverages", "Pulses", "Potato Products",
+           // "Dairy Products", "Pasta", "Fruit", "Sauces", "Soy Products", "Confectionery", "Oil & Fat", "Fast Food")
+
+        spinner.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories)
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                productCategory = ProductCategory.values()[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
         }
 
         binding.btnContinue.setOnClickListener(){
@@ -62,10 +89,10 @@ class FoodCreateActivity : AppCompatActivity() {
                 if (edit) {
                     //app.foods.update(food.copy())
                 } else {
-                    food = FoodModel(0,
+                    food = FoodModel(
                         binding.brand.text.toString(),
                         productName,
-                        binding.productCategory.text.toString(),
+                        productCategory,
                         binding.barcode.text.toString())
                     i("ALEX $it")
                 }

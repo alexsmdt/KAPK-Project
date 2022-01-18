@@ -10,6 +10,7 @@ interface FoodStore {
     fun contains(food : FoodModel) : Boolean
     fun find(food : FoodModel) : FoodModel?
     fun count() : Int
+    fun replace(oldFood: FoodModel, newFoodModel: FoodModel) : Boolean
     operator fun get(index : Int) : FoodModel
 
     public fun sumNutritionalValues() : NutritionalValues {
@@ -21,6 +22,16 @@ interface FoodStore {
             nv.proteinInG += food.nutritionalValues.proteinInG
         }
         return nv
+    }
+
+
+    fun getMeal(meal: MealType) : MutableList<FoodModel> {
+        val list = mutableListOf<FoodModel>()
+        for (food in listIterator()) {
+            if (food.meal == meal)
+                list.add(food)
+        }
+        return list
     }
 
 }

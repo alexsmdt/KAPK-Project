@@ -3,17 +3,19 @@ package oth.wit.kapk_project.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import oth.wit.kapk_project.databinding.CardConsumedFoodBinding
 import oth.wit.kapk_project.databinding.CardFoodBinding
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
+import oth.wit.kapk_project.models.MealType
 
-interface FoodListener {
-    fun onFoodClick(food: FoodModel)
+interface ConsumedFoodListener {
+    fun onFoodClick(food : FoodModel)
 }
 
-class FoodAdapter constructor(private var foods: FoodStore,
-                              private val listener: FoodListener) :
-    RecyclerView.Adapter<FoodAdapter.MainHolder>() {
+class ConsumedFoodAdapter constructor(private var foods: MutableList<FoodModel>,
+                              private val listener: ConsumedFoodListener) :
+    RecyclerView.Adapter<ConsumedFoodAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardFoodBinding
@@ -34,7 +36,7 @@ class FoodAdapter constructor(private var foods: FoodStore,
     class MainHolder(private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(food: FoodModel, listener : FoodListener) {
+        fun bind(food: FoodModel, listener : ConsumedFoodListener) {
             binding.brand.text = food.brand
             binding.productName.text = food.productName
             binding.root.setOnClickListener { listener.onFoodClick(food) }

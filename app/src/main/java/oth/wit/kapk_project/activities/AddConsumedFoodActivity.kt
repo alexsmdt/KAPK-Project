@@ -2,16 +2,20 @@ package oth.wit.kapk_project.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.View.INVISIBLE
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.ActivityResultLauncher
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityAddConsumedFoodBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
+import oth.wit.kapk_project.models.MealType
 import oth.wit.kapk_project.models.NutritionalValues
 import timber.log.Timber.i
 
@@ -21,6 +25,8 @@ class AddConsumedFoodActivity : AppCompatActivity() {
     lateinit var food : FoodModel
     lateinit var consumedFood : FoodModel
     lateinit var app: MainApp
+    lateinit var meal : MealType
+    var edit : Boolean = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +36,37 @@ class AddConsumedFoodActivity : AppCompatActivity() {
 
         binding = ActivityAddConsumedFoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.toolbarAdd.title = intent.getStringExtra("meal")
+        meal = MealType.valueOf(intent.getStringExtra("meal").toString())
+        binding.toolbarAdd.title = meal.printableName
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
 
         food = intent.getParcelableExtra<FoodModel>("food")!!
+        edit = intent.getBooleanExtra("edit",false)
 
         consumedFood = food.copy()
+
+        consumedFood.meal = meal
+
+        if (!edit) {
+            binding.editImageButton.visibility = INVISIBLE
+            binding.deleteImageButton.visibility = INVISIBLE
+        }
+        else {
+            binding.deleteImageButton.setOnClickListener() {
+                app.consumedFoods.remove(food)
+                setResult(RESULT_OK)
+                finish()
+            }
+            binding.editImageButton.setOnClickListener() {
+                app.consumedFoods.remove(food)
+                app.consumedFoods.add(consumedFood)
+                setResult(RESULT_OK)
+                finish()
+            }
+        }
+
 
         i("ALEX $food")
 
@@ -63,11 +92,7 @@ class AddConsumedFoodActivity : AppCompatActivity() {
             }
         }
 
-        binding.button.setOnClickListener() {
-            var amount = binding.servingSizeEditTextNumber.text.toString().toDouble()
-            // kalorien, carbs, proteine und fat mit faktor multiplizieren
-            //app.consumedFoods.changeNutritionalInformation(factor, food.id)
-            // food item zu FoodList der konsumierten Produkte hinzufügen
+        binding.addImageButton.setOnClickListener() {
             app.consumedFoods.add(consumedFood)
             setResult(RESULT_OK)
             finish()
@@ -89,10 +114,10 @@ class AddConsumedFoodActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun refreshNutritionalValues(nv : NutritionalValues) {
-        binding.caloriesEditTextNumber.text = "${nv.caloriesInKcal} kcal"
-        binding.carbsEditTextNumber.text = "${nv.carbsInG} g"
-        binding.proteinEditTextNumber.text = "${nv.proteinInG} g"
-        binding.fatEditTextNumber.text = "${nv.fatInG} g"
+        binding.caloriesEditTextNumber.text = String.format("%.1f", nv.caloriesInKcal) + " kcal"
+        binding.carbsEditTextNumber.text = String.format("%.1f", nv.carbsInG) + " g"
+        binding.proteinEditTextNumber.text = String.format("%.1f", nv.proteinInG) + " g"
+        binding.fatEditTextNumber.text = String.format("%.1f", nv.fatInG) + " g"
     }
 
 }
