@@ -60,8 +60,7 @@ class AddConsumedFoodActivity : AppCompatActivity() {
                 finish()
             }
             binding.editImageButton.setOnClickListener() {
-                app.consumedFoods.remove(food)
-                app.consumedFoods.add(consumedFood)
+                app.consumedFoods.replace(food,consumedFood)
                 setResult(RESULT_OK)
                 finish()
             }

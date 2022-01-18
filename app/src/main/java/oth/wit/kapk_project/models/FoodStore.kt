@@ -1,5 +1,7 @@
 package oth.wit.kapk_project.models
 
+import timber.log.Timber.i
+
 
 interface FoodStore {
 
@@ -26,6 +28,7 @@ interface FoodStore {
 
 
     fun getMeal(meal: MealType) : MutableList<FoodModel> {
+        i("ALEX getMeal($meal)")
         val list = mutableListOf<FoodModel>()
         for (food in listIterator()) {
             if (food.meal == meal)

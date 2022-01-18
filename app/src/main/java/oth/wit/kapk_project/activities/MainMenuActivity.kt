@@ -57,10 +57,8 @@ class MainMenuActivity : AppCompatActivity() {
     private fun buttonPressed (meal : MealType) {
         i("ALEX button pressed")
         Timber.i("button pressed: %s", meal)
-        var launcherIntent = Intent(this, FoodListActivity::class.java)
-        if (meal == MealType.BREAKFAST) {
-            launcherIntent = Intent(this, MealListActivity::class.java)
-        }
+        var launcherIntent = Intent(this, MealListActivity::class.java)
+
         launcherIntent.putExtra("meal", meal.name)
         refreshIntentLauncher.launch(launcherIntent)
     }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "174091316850",
+    "firebase_url": "https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "kapk-project",
+    "storage_bucket": "kapk-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174091316850:android:4f3305873ff2306f7c1ceb",
+        "android_client_info": {
+          "package_name": "oth.wit.kapk_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174091316850-9fu2l5sv66fpk2ufe18b7nnmobbqp8pu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "oth.wit.kapk_project",
+            "certificate_hash": "cbf4916a5b2e180cf5174d395084f054934dbba2"
+          }
+        },
+        {
+          "client_id": "174091316850-qu1hcdi2ci4m5r6voo01d10buihov155.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtl2ajjcuMdxWR5JcQHHpm9RiCWQ0FJvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174091316850-qu1hcdi2ci4m5r6voo01d10buihov155.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

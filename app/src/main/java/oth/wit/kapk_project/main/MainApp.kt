@@ -14,11 +14,12 @@ class MainApp : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         //foods = FoodMemStore()
-        foods = FoodJSONStore(applicationContext, "foods")
-
+        //foods = FoodJSONStore(applicationContext, "foods")
+        foods = FireFoodStore(applicationContext, "foods")
         //foods.clear()
 
-        consumedFoods = FoodJSONStore(applicationContext, "consumedFoods")
+        //consumedFoods = FoodJSONStore(applicationContext, "consumedFoods")
+        consumedFoods = FireFoodStore(applicationContext, "consumedFoods")
         //consumedFoods.clear()
 
         i("ALEX Placemark started")

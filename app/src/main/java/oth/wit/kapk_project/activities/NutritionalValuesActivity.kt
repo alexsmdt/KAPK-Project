@@ -36,7 +36,7 @@ class NutritionalValuesActivity : AppCompatActivity() {
         binding = ActivityNutritionalValuesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         food = intent.getParcelableExtra<FoodModel>("food")!!   //To-Do überarbeiten
-        binding.toolbarCreate.title = "Nutritional Values" + food.productName
+        binding.toolbarCreate.title = "Nutritional Values " + food.productName
         setSupportActionBar(binding.toolbarCreate)
 
 

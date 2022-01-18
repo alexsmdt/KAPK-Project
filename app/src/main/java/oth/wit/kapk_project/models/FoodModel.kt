@@ -19,7 +19,8 @@ data class FoodModel(var brand : String = "",
                      var productCategory : ProductCategory = ProductCategory.MISCELLANEOUS,
                      var barcode : String = "",
                      var nutritionalValues: NutritionalValues = NutritionalValues(ServingSize(), 0.0, 0.0, 0.0, 0.0),
-                     var meal : MealType = MealType.OTHER) : Parcelable
+                     var meal : MealType = MealType.OTHER,
+                     var fbId : String = "") : Parcelable
 
 
 
