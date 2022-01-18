@@ -19,7 +19,6 @@ class MainApp : Application() {
         //foods.clear()
 
         consumedFoods = FoodJSONStore(applicationContext, "consumedFoods")
-
         //consumedFoods.clear()
 
         i("ALEX Placemark started")
