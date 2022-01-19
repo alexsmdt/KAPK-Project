@@ -102,4 +102,7 @@ class FireFoodStore(private val context: Context, branch : String) : FoodStore{
         db = Firebase.database.reference
     }
 
+    override fun toArrayList(): ArrayList<FoodModel> {
+        return ArrayList<FoodModel>(foods)
+    }
 }

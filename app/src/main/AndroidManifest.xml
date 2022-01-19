@@ -17,12 +17,10 @@
         <activity
             android:name=".activities.AddConsumedFoodActivity"
             android:exported="false" />
-        <activity
-            android:name=".activities.GoogleLoginActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activities.MainMenuActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.NutritionalValuesActivity"
             android:exported="false" />

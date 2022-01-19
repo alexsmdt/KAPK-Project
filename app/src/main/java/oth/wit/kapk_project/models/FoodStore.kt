@@ -37,4 +37,6 @@ interface FoodStore {
         return list
     }
 
+    fun toArrayList(): ArrayList<FoodModel>
+
 }

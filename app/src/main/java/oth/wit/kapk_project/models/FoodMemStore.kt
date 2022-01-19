@@ -11,6 +11,10 @@ internal fun getId() : Long {
 class FoodMemStore : FoodStore {
     val foods = ArrayList<FoodModel>()
 
+    override fun toArrayList(): ArrayList<FoodModel> {
+        TODO("Not yet implemented")
+    }
+
     override fun replace(oldFood: FoodModel, newFoodModel: FoodModel): Boolean {
         TODO("Not yet implemented")
     }

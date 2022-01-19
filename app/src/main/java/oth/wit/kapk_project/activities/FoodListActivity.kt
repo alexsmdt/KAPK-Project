@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,8 @@ import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
 import oth.wit.kapk_project.models.MealType
 import timber.log.Timber.i
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FoodListActivity : AppCompatActivity(), FoodListener {
@@ -24,22 +27,69 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     private lateinit var binding : ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var meal : MealType
+    lateinit var tempFoods : ArrayList<FoodModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        i("ALEX FoodListActivity.onCreate()")
         binding = ActivityFoodListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         meal = MealType.valueOf(intent.getStringExtra("meal").toString())
-        binding.toolbar.title = " Add to " + meal.printableName
-        setSupportActionBar(binding.toolbar)
+        binding.toolbarList.title = " Add to " + meal.printableName
+        setSupportActionBar(binding.toolbarList)
 
         app = application as MainApp
 
+        tempFoods = app.foods.toArrayList()
+
+        i("ALEX create LayoutManager()")
         val layoutManager = LinearLayoutManager(this)
+
+        binding.recyclerView.adapter = FoodAdapter(tempFoods,this)
         binding.recyclerView.layoutManager = layoutManager
-        loadFoods()
+
+        val searchView = binding.productSearch
+
+
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                i("sucess")
+
+                tempFoods.clear()
+                val searchText = newText!!.lowercase(Locale.getDefault())
+                if(searchText.isNotEmpty()){
+
+                    app.foods.toArrayList().forEach{
+                        if(it.productName.lowercase(Locale.getDefault()).contains(searchText)){
+                            tempFoods.add(it)
+                        }
+                    }
+                    binding.recyclerView.adapter?.notifyDataSetChanged()
+
+                }else{
+
+                    tempFoods.clear()
+                    tempFoods.addAll(app.foods.toArrayList())
+                    binding.recyclerView.adapter?.notifyDataSetChanged()
+
+                }
+
+                return false
+
+            }
+
+        })
+
+        //loadFoods()
 
         registerRefreshCallback()
+        i("ALEX finish onCreate()")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -83,7 +133,7 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     }
 
     fun showFoods (foods: FoodStore) {
-        binding.recyclerView.adapter = FoodAdapter(foods, this)
+        binding.recyclerView.adapter = FoodAdapter(foods.toArrayList(), this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 

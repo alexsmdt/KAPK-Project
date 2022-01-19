@@ -95,4 +95,7 @@ class FoodJSONStore(private val context: Context, fileName : String) : FoodStore
         foods.forEach { Timber.i("$it") }
     }
 
+    override fun toArrayList(): ArrayList<FoodModel> {
+        return ArrayList<FoodModel>(foods)
+    }
 }

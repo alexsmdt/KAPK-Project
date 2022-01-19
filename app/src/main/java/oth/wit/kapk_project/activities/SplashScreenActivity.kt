@@ -27,7 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
     lateinit var appname : TextView
     lateinit var lottie : LottieAnimationView
     lateinit var app: MainApp
-    var db : DatabaseReference = FirebaseDatabase.getInstance("https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app").reference
+    //var db : DatabaseReference = FirebaseDatabase.getInstance("https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app").reference
     lateinit var foods : MutableList<FoodModel>
     lateinit var consumedFoods : MutableList<FoodModel>
 
@@ -48,6 +48,7 @@ class SplashScreenActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             val launcherIntent = Intent(this, MainMenuActivity::class.java)
             refreshIntentLauncher.launch(launcherIntent)
+            finish()
         }, 5000)
 
         registerRefreshCallback()
@@ -58,7 +59,7 @@ class SplashScreenActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { }
     }
-
+    /*
     private fun loadDatabase() {
         db.child("consumedFoods").get().addOnSuccessListener {
             i("firebase Got value ${it.value}")
@@ -79,7 +80,10 @@ class SplashScreenActivity : AppCompatActivity() {
         }.addOnFailureListener{
             i("firebase Error getting data")
         }
+       }
+
+     */
 
 
-    }
+
 }
