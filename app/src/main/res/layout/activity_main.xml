@@ -97,19 +97,34 @@
                         android:gravity="center" />
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/barcode"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_margin="8dp"
-                    android:autofillHints="hint"
-                    android:hint="@string/hint_barcode"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/barcodeTextView"
+                        android:layout_width="80dp"
+                        android:layout_height="45dp"
+                        android:layout_margin="8dp"
+                        android:layout_weight="1"
+                        android:autofillHints="hint"
+                        android:hint="@string/hint_barcode"
+                        android:inputType="text"
+                        android:maxLength="25"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/buttonScan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Scan" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/btnContinue"
@@ -118,6 +133,7 @@
                     android:layout_gravity="bottom"
                     android:layout_margin="16dp"
                     android:background="@color/colorAccent"
+                    android:gravity="bottom|center"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"

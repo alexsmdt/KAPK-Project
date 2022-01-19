@@ -273,6 +273,19 @@
                         app:srcCompat="@android:drawable/ic_menu_add" />
 
                 </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="40dp">
+
+                    <Button
+                        android:id="@+id/btnChangeMode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1" />
+                </TableRow>
             </TableLayout>
         </ScrollView>
 

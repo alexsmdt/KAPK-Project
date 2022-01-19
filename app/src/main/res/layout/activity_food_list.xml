@@ -40,12 +40,28 @@ tools:context=".activities.FoodListActivity">
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <SearchView
-                android:id="@+id/productSearch"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            </SearchView>
+                <SearchView
+                    android:id="@+id/productSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
+                    android:layout_weight="5.0">
+
+                </SearchView>
+
+                <Button
+                    android:id="@+id/btnScan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Scan"
+                    android:textSize="10sp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

@@ -2,12 +2,14 @@ package oth.wit.kapk_project.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import oth.wit.kapk_project.databinding.ActivityMainMenuBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.MealType
@@ -33,6 +35,15 @@ class MainMenuActivity : AppCompatActivity() {
 
         app = application as MainApp
 
+        val appSettingPrefs: SharedPreferences = getSharedPreferences("appSettingPrefs", 0)
+        val sharedPrefsEdit : SharedPreferences.Editor = appSettingPrefs.edit()
+        val isNightModeOn : Boolean = appSettingPrefs.getBoolean("NightMode", false)
+
+        if (isNightModeOn) {
+            binding.btnChangeMode.text = "Disable Night Mode"
+        }else
+            binding.btnChangeMode.text = "Enable Night Mode"
+
         setTextViews()
 
         binding.breakfastButton.setOnClickListener() {
@@ -49,6 +60,21 @@ class MainMenuActivity : AppCompatActivity() {
 
         binding.snacksButton.setOnClickListener() {
             buttonPressed(MealType.SNACKS)
+        }
+
+        binding.btnChangeMode.setOnClickListener {
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                sharedPrefsEdit.putBoolean("NightMode", true)
+                sharedPrefsEdit.apply()
+                binding.btnChangeMode.text = "Disable Night Mode"
+            }
+            else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                sharedPrefsEdit.putBoolean("NightMode", false)
+                sharedPrefsEdit.apply()
+                binding.btnChangeMode.text = "Enable Night Mode"
+            }
         }
 
         registerRefreshCallback()
