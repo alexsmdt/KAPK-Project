@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KAPK-Project</string>
+    <string name="app_name">FoodTracker</string>
     <string name="button_continue">Continue</string>
     <string name="hint_brand">Brand/ Manufacturer</string>
     <string name="hint_productName">Product Name</string>
@@ -23,4 +23,6 @@
     <string name="hint_snacks">Snacks</string>
     <string name="hint_caloriesAmount">"0"</string>
     <string name="default_web_client_auth_id">1040330250217-50o0gq96734gabocrkvaor5l60goboh2.apps.googleusercontent.com</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

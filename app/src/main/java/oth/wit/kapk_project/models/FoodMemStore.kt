@@ -54,4 +54,5 @@ class FoodMemStore : FoodStore {
     fun logAll() {
         foods.forEach{ i("$it") }
     }
+
 }

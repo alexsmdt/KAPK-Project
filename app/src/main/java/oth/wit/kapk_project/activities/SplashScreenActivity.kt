@@ -35,6 +35,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        i("ALEX SplashScreenActivity.onCreate()")
         appname = findViewById(R.id.appname)
         lottie = findViewById(R.id.lottie)
 
@@ -46,7 +47,8 @@ class SplashScreenActivity : AppCompatActivity() {
         //loadDatabase()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val launcherIntent = Intent(this, MainMenuActivity::class.java)
+            i("ALEX SplashScreenActivity go to GoogleLoginActivity")
+            val launcherIntent = Intent(this, GoogleLoginActivity::class.java)
             refreshIntentLauncher.launch(launcherIntent)
             finish()
         }, 5000)
@@ -55,6 +57,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun registerRefreshCallback() {
+        i("ALEX SplashScreenActivity.registerRefreshCallback()")
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { }

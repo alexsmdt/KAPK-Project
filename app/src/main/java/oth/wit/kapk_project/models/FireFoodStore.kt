@@ -1,6 +1,10 @@
 package oth.wit.kapk_project.models
 
 import android.content.Context
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -13,33 +17,40 @@ import oth.wit.kapk_project.helpers.exists
 import timber.log.Timber
 import timber.log.Timber.i
 
-class FireFoodStore(private val context: Context, branch : String) : FoodStore{
+class FireFoodStore(private val context: Context, branch : String, child : String?) : FoodStore{
     //<string name="default_web_client_id">1040330250217-50o0gq96734gabocrkvaor5l60goboh2.apps.googleusercontent.com</string>
-    //var foods = HashMap<String, FoodModel>()
     var foods = mutableListOf<FoodModel>()
-    var userId: String = "alex@12345"
-    //var db : DatabaseReference = Firebase.database.reference("foods")
+
     var db : DatabaseReference = FirebaseDatabase.getInstance("https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app").getReference(branch)
+
+    lateinit var task : Task<DataSnapshot>
 
     lateinit var st : StorageReference
 
-
     init {
-        GlobalScope.launch {
-            suspend {
-                db.get().addOnSuccessListener {
-                    i("ALEX firebase Got value ${it.value}")
-                    if (it.value != null) {
-                        val map: HashMap<String, FoodModel>?
-                        map =
-                            it.getValue<HashMap<String, FoodModel>?>() as HashMap<String, FoodModel>
-                        foods = ArrayList(map.values).toMutableList()
-                    }
-                }.addOnFailureListener {
-                    i("ALEX firebase Error getting data")
-                }
-            }.invoke()
+
+        if(child != null)
+            db = db.child(child)
+
+        task = db.get()
+
+        task.addOnSuccessListener {
+            i("ALEX firebase Got value ${it.value}")
+            if (it.value != null) {
+                val map: HashMap<String, FoodModel>?
+                map =
+                    it.getValue<HashMap<String, FoodModel>?>() as HashMap<String, FoodModel>
+                foods = ArrayList(map.values).toMutableList()
+
+            }
+        }.addOnFailureListener {
+            i("ALEX firebase Error getting data ${it.message}")
         }
+
+    }
+
+    fun getQueryTask() : Task<DataSnapshot> {
+        return task
     }
 
     fun findByFbId(fbId : String) : FoodModel? {

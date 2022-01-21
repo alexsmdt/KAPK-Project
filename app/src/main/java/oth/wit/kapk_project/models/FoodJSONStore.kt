@@ -98,4 +98,5 @@ class FoodJSONStore(private val context: Context, fileName : String) : FoodStore
     override fun toArrayList(): ArrayList<FoodModel> {
         return ArrayList<FoodModel>(foods)
     }
+
 }
