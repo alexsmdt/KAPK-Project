@@ -28,6 +28,7 @@ import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FireFoodStore
 import timber.log.Timber.i
 import java.util.*
+import kotlin.concurrent.thread
 
 
 class GitHubLoginActivity : AppCompatActivity() {
@@ -117,6 +118,22 @@ class GitHubLoginActivity : AppCompatActivity() {
         //app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
         //app.foods = FireFoodStore(applicationContext, "foods", null)
 
+        /*thread(start = true) {
+            try {
+                app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
+                app.foods = FireFoodStore(applicationContext, "foods", null)
+
+                Tasks.await((app.consumedFoods as FireFoodStore).getQueryTask())
+                Tasks.await((app.foods as FireFoodStore).getQueryTask())
+
+                i("ALEX GoogleLoginActivity go to MainMenuActivity")
+                val intent = Intent(this, MainMenuActivity::class.java)
+                startActivity(intent)
+            }catch(e: Exception){
+                i("ALEX got exception ${e.message}")
+            }
+        }*/
+
         Thread(Runnable {
             try {
                 app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
@@ -128,7 +145,10 @@ class GitHubLoginActivity : AppCompatActivity() {
                 i("ALEX GoogleLoginActivity go to MainMenuActivity")
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
-            }catch(e: InterruptedException){}
+                finish()
+            }catch(e: InterruptedException){
+                i("ALEX got exception ${e.message}")
+            }
         }).start()
 
         /*Handler(Looper.getMainLooper()).postDelayed({

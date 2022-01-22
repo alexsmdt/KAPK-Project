@@ -20,6 +20,7 @@ import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
 import oth.wit.kapk_project.models.MealType
 import timber.log.Timber
+import timber.log.Timber.i
 
 class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
     lateinit var app: MainApp
@@ -29,6 +30,7 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        i("ALEX MealListActivity.onCreate()")
         binding = ActivityConsumedMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
         meal = MealType.valueOf(intent.getStringExtra("meal").toString())
@@ -42,14 +44,18 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
         loadFoods()
 
         registerRefreshCallback()
+        i("ALEX end of MealListActivity.onCreate()")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        i("ALEX MealListActivity.onCreateOptionsMenu()")
         menuInflater.inflate(R.menu.menu_main, menu)
+        i("ALEX end of MealListActivity.onCreateOptionsMenu()")
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        i("ALEX MealListActivity.onOptionsitemSelected()")
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, FoodListActivity::class.java)
@@ -62,31 +68,39 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
                 finish()
             }
         }
+        i("ALEX end of MealListActivity.onOptionsitemSelected()")
         return super.onOptionsItemSelected(item)
     }
 
     override fun onFoodClick(food: FoodModel) {
-        Timber.i("ALEX FoodListActivity.onFoodClick: $food")
+        i("ALEX MealListActivity.onFoodClick: $food")
         val launcherIntent = Intent(this, AddConsumedFoodActivity::class.java)
         launcherIntent.putExtra("food", food)
         launcherIntent.putExtra("meal", meal.name)
         launcherIntent.putExtra("edit", true)
         refreshIntentLauncher.launch(launcherIntent)
+        i("ALEX end of MealListActivity.onFoodClick: $food")
     }
 
 
     private fun registerRefreshCallback() {
+        i("ALEX MealListActivity.registerRefreshCallback()")
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { loadFoods() }
+        i("ALEX end of MealListActivity.registerRefreshCallback()")
     }
 
     private fun loadFoods() {
+        i("ALEX MealListActivity.loadFoods()")
         showFoods(app.consumedFoods.getMeal(meal))
+        i("ALEX end of MealListActivity.loadFoods()")
     }
 
     fun showFoods (foods: MutableList<FoodModel>) {
+        i("ALEX MealListActivity.showFoods()")
         binding.recyclerView.adapter = ConsumedFoodAdapter(foods, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
+        i("ALEX end of MealListActivity.showFoods()")
     }
 }

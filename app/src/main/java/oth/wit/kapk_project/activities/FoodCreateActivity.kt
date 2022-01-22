@@ -107,7 +107,7 @@ class FoodCreateActivity : AppCompatActivity() {
 
         //val categories = ProductCategory.values().forEach { ProductCategory -> ProductCategory.printableName }
 
-        val categories = ProductCategory.values().map{ ProductCategory -> ProductCategory.printableName }
+        val categories = ProductCategory.values().map{ ProductCategory -> ProductCategory.printableName }.sorted()
 
         //val categories = arrayOf("Miscellaneous", "Energy Drink", "Baked Goods", "Fish Products", "Meat", "Vegetables",
          //  "Vegetables", "Vegetarian", "Vegan", "Dessert", "Cereal Products", "Beverages", "Pulses", "Potato Products",
@@ -122,7 +122,7 @@ class FoodCreateActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                productCategory = ProductCategory.values()[position]
+                productCategory = ProductCategory.values().sortedBy { ProductCategory -> ProductCategory.printableName }[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

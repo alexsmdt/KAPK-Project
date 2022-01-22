@@ -7,7 +7,7 @@ enum class ProductCategory(val printableName : String) {
     FISH_PRODUCTS("Fish Products"),
     MEAT("Meat"),
     VEGETABLES("Vegetables"),
-    SOUPS("Vegetables"),
+    SOUPS("Soups"),
     VEGETARIAN("Vegetarian"),
     VEGAN("Vegan"),
     DESSERT("Dessert"),
@@ -22,5 +22,6 @@ enum class ProductCategory(val printableName : String) {
     SOY_PRODUCTS("Soy Products"),
     CONFECTIONERY("Confectionery"),
     OIL_FAT("Oil & Fat"),
-    FAST_FOOD("Fast Food");
+    FAST_FOOD("Fast Food"),
+    DRINKS("Drinks")
 }
