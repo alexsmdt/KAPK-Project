@@ -107,7 +107,7 @@
                         android:layout_weight="1"
                         android:autofillHints="hint"
                         android:hint="@string/hint_barcode"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:maxLength="25"
                         android:maxLines="1"
                         android:padding="8dp"

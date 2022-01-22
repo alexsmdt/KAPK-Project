@@ -2,12 +2,6 @@ package oth.wit.kapk_project.models
 
 import timber.log.Timber.i
 
-var lastId = 0L
-
-internal fun getId() : Long {
-    return lastId++
-}
-
 class FoodMemStore : FoodStore {
     val foods = ArrayList<FoodModel>()
 
@@ -15,7 +9,7 @@ class FoodMemStore : FoodStore {
         TODO("Not yet implemented")
     }
 
-    override fun replace(oldFood: FoodModel, newFoodModel: FoodModel): Boolean {
+    override fun replace(oldFoodModel: FoodModel, newFoodModel: FoodModel): Boolean {
         TODO("Not yet implemented")
     }
 
@@ -48,6 +42,14 @@ class FoodMemStore : FoodStore {
     }
 
     override fun get(index: Int): FoodModel {
+        TODO("Not yet implemented")
+    }
+
+    override fun addFoodStoreChangeListener(listener: FoodStoreChangeListener) {
+        TODO("Not yet implemented")
+    }
+
+    override fun removeFoodStoreChangeListener(listener: FoodStoreChangeListener) {
         TODO("Not yet implemented")
     }
 

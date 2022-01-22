@@ -1,6 +1,6 @@
 package oth.wit.kapk_project.activities
 
-import android.content.DialogInterface
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,20 +13,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.SearchView
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
-import kotlinx.coroutines.delay
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.adapters.FoodAdapter
 import oth.wit.kapk_project.adapters.FoodListener
@@ -34,19 +30,20 @@ import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
 import oth.wit.kapk_project.models.FoodStore
+import oth.wit.kapk_project.models.FoodStoreChangeListener
 import oth.wit.kapk_project.models.MealType
 import timber.log.Timber.i
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FoodListActivity : AppCompatActivity(), FoodListener {
+class FoodListActivity : AppCompatActivity(), FoodListener , FoodStoreChangeListener {
     lateinit var app: MainApp
     private lateinit var binding : ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var meal : MealType
     lateinit var tempFoods : ArrayList<FoodModel>
-    lateinit var btnScanBarcode : Button
+    private lateinit var btnScanBarcode : Button
 
     private val CAMERA_PERMISSION_CODE=123
     private val READ_STORAGE_PERMISSION_CODE=113
@@ -55,8 +52,13 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
     private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
     private lateinit var galleryLauncher: ActivityResultLauncher<Intent>
 
-    lateinit var inputImage : InputImage
-    lateinit var barcodeScanner: BarcodeScanner
+    private lateinit var inputImage : InputImage
+    private lateinit var barcodeScanner: BarcodeScanner
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onFoodStoreChange() {
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,35 +77,35 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
 
         barcodeScanner = BarcodeScanning.getClient()
 
-        cameraLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object :
-            ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                i("ALEX camera.onActivityResult()")
-                val data = result?.data
-                try {
-                    val photo = data?.extras?.get("data") as Bitmap
-                    inputImage = InputImage.fromBitmap(photo, 0)
-                    processQr()
-                } catch (e : Exception) {i("ALEX onActivityResult: ${e.message}")}
-                i("ALEX end of camera.onActivityResult()")
+        cameraLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            i("ALEX camera.onActivityResult()")
+            val data = result?.data
+            try {
+                val photo = data?.extras?.get("data") as Bitmap
+                inputImage = InputImage.fromBitmap(photo, 0)
+                processQr()
+            } catch (e: Exception) {
+                i("ALEX onActivityResult: ${e.message}")
             }
-        })
-
-        galleryLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object :
-            ActivityResultCallback<ActivityResult> {
-            override fun onActivityResult(result: ActivityResult?) {
-                i("ALEX Gallery.onActivityResult()")
-                val data = result?.data
-                try {
-                    inputImage = InputImage.fromFilePath(this@FoodListActivity,data?.data)
-                    processQr()
-                } catch (e : Exception) {i("ALEX onActivityResult: ${e.message}")}
-                i("ALEX end Gallery.onActivityResult()")
-            }
+            i("ALEX end of camera.onActivityResult()")
         }
-        )
+
+        galleryLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            i("ALEX Gallery.onActivityResult()")
+            val data = result?.data
+            try {
+                inputImage = InputImage.fromFilePath(this@FoodListActivity, data?.data)
+                processQr()
+            } catch (e: Exception) {
+                i("ALEX onActivityResult: ${e.message}")
+            }
+            i("ALEX end Gallery.onActivityResult()")
+        }
 
         tempFoods = app.foods.toArrayList()
+        app.foods.addFoodStoreChangeListener(this)
 
         i("ALEX create LayoutManager()")
         val layoutManager = LinearLayoutManager(this)
@@ -120,41 +122,40 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
             val builder = AlertDialog.Builder(this@FoodListActivity)
             builder.setTitle("Pick an option")
 
-            builder.setItems(options, DialogInterface.OnClickListener{
-                    dialog, which ->
+            builder.setItems(options) { _, which ->
                 i("ALEX builder.setItems()")
-                if (which==0) {
+                if (which == 0) {
                     i("ALEX builder start cameraLauncher")
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     cameraLauncher.launch(cameraIntent)
                     i("ALEX builder cameraLauncher has been started")
-                }
-                else {
+                } else {
                     i("ALEX builder start galleryLauncher")
 
                     val storageIntent = Intent()
-                    storageIntent.setType("image/*")
-                    storageIntent.setAction(Intent.ACTION_GET_CONTENT)
+                    storageIntent.type = "image/*"
+                    storageIntent.action = Intent.ACTION_GET_CONTENT
                     galleryLauncher.launch(storageIntent)
                     i("ALEX builder galleryLauncher has been started")
                 }
                 Handler(Looper.getMainLooper()).postDelayed({
                     i("ALEX end of builder.setItems()")
                 }, 5000)
-            })
+            }
             builder.show()
             i("ALEX end of btnScanBarcode.onClickListener()")
 
         }
 
 
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 i("ALEX searchView.onQueryTextListener()")
                 i("ALEX end of searchView.onQueryTextListener()")
                 return true
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextChange(newText: String?): Boolean {
                 i("ALEX searchView.onQueryTextChange()")
 
@@ -163,7 +164,7 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
                 if(searchText.isNotEmpty()){
 
                     app.foods.toArrayList().forEach{
-                        if(it.productName.lowercase(Locale.getDefault()).contains(searchText) || it.barcode.contains(searchText)){
+                        if(it.productName.lowercase(Locale.getDefault()).contains(searchText) || it.barcode.contains(searchText) || it.brand.lowercase(Locale.getDefault()).contains(searchText)){
                             tempFoods.add(it)
                         }
                     }
@@ -200,11 +201,11 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
                 when(format) {
                     Barcode.FORMAT_EAN_8 -> {
                         binding.productSearch.setQuery(barcode.displayValue,true)
-                        i("ALEX format ean8 erkannt")
+                        i("ALEX format ean8 recognized")
                     }
                     Barcode.FORMAT_EAN_13 -> {
                         binding.productSearch.setQuery(barcode.displayValue,true)
-                        i("ALEX format ean13 erkannt")
+                        i("ALEX format ean13 recognized")
                     }
                 }
             }
@@ -306,6 +307,7 @@ class FoodListActivity : AppCompatActivity(), FoodListener {
         i("ALEX end of FoodListActivity.loadFoods()")
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun showFoods (foods: FoodStore) {
         i("ALEX FoodListActivity.showFoods()")
         binding.recyclerView.adapter = FoodAdapter(foods.toArrayList(), this)

@@ -3,25 +3,11 @@ package oth.wit.kapk_project.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import com.google.android.material.snackbar.Snackbar
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityGitHubLoginBinding
-import oth.wit.kapk_project.databinding.ActivityGoogleLoginBinding
 import com.google.firebase.auth.OAuthProvider
-import androidx.annotation.NonNull
-
-import com.google.android.gms.tasks.OnFailureListener
-
-import com.google.firebase.auth.AuthResult
-
-import com.google.android.gms.tasks.OnSuccessListener
-
-import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import oth.wit.kapk_project.main.MainApp
@@ -34,8 +20,8 @@ import kotlin.concurrent.thread
 class GitHubLoginActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
-    lateinit var inputEmail : EditText
-    lateinit var btnLogin : Button
+    private lateinit var inputEmail : EditText
+    private lateinit var btnLogin : Button
     private lateinit var binding: ActivityGitHubLoginBinding
 
     lateinit var app: MainApp
@@ -57,7 +43,7 @@ class GitHubLoginActivity : AppCompatActivity() {
 
         btnLogin.setOnClickListener{
             i("ALEX button click")
-            var email = inputEmail.text.toString()
+            val email = inputEmail.text.toString()
             if (!email.matches(emailPattern.toRegex()))
                 i("ALEX no matching pattern")
             else {
@@ -66,15 +52,8 @@ class GitHubLoginActivity : AppCompatActivity() {
                 // Target specific email with login hint.
                 provider.addCustomParameter("login", email)
 
-                val scopes: ArrayList<String?> = object : ArrayList<String?>() {
-                    init {
-                        i("ALEX init")
-                        add("user:email")
-                    }
-                }
 
                 i("ALEX after init")
-                //provider.scopes = scopes
                 val pendingResultTask = mAuth.pendingAuthResult
                 i("ALEX $pendingResultTask")
                 if (pendingResultTask != null) {
@@ -93,12 +72,12 @@ class GitHubLoginActivity : AppCompatActivity() {
                     i("ALEX resultTask = null")
                     mAuth.startActivityForSignInWithProvider( /* activity= */this, provider.build())
                         .addOnSuccessListener {
-                            i("ALEX mauth.addOnSuccessListener")
+                            i("ALEX mAuth.addOnSuccessListener")
                             openNextActivity()
                         }
                         .addOnFailureListener {
                             // Handle failure.
-                            i("ALEX mauth.addFailuresListener")
+                            i("ALEX mAuth.addFailuresListener")
                         }
                 }
             }
@@ -115,26 +94,8 @@ class GitHubLoginActivity : AppCompatActivity() {
 
 
         val day = String.format("%tF", GregorianCalendar())
-        //app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
-        //app.foods = FireFoodStore(applicationContext, "foods", null)
 
-        /*thread(start = true) {
-            try {
-                app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
-                app.foods = FireFoodStore(applicationContext, "foods", null)
-
-                Tasks.await((app.consumedFoods as FireFoodStore).getQueryTask())
-                Tasks.await((app.foods as FireFoodStore).getQueryTask())
-
-                i("ALEX GoogleLoginActivity go to MainMenuActivity")
-                val intent = Intent(this, MainMenuActivity::class.java)
-                startActivity(intent)
-            }catch(e: Exception){
-                i("ALEX got exception ${e.message}")
-            }
-        }*/
-
-        Thread(Runnable {
+        thread(start = true) {
             try {
                 app.consumedFoods = FireFoodStore(applicationContext, uid.toString(), day)
                 app.foods = FireFoodStore(applicationContext, "foods", null)
@@ -146,18 +107,10 @@ class GitHubLoginActivity : AppCompatActivity() {
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
                 finish()
-            }catch(e: InterruptedException){
+            }catch(e: Exception){
                 i("ALEX got exception ${e.message}")
             }
-        }).start()
+        }
 
-        /*Handler(Looper.getMainLooper()).postDelayed({
-            i("ALEX GitHubLoginActivitygo to MainMenuActivity")
-            val intent = Intent(this, MainMenuActivity::class.java)
-
-            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
-        }, 1000)*/
     }
 }

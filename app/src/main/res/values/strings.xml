@@ -14,7 +14,7 @@
     <string name="github_token">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</string>
     <string name="menu_createFood">Create</string>
     <string name="menu_cancelFood">Cancel</string>
-    <string name="enter_food_information">Please enter at least the brand and the product name</string>
+    <string name="enter_food_information">Please enter at least a product name</string>
     <string name="enter_nutritional_information">Please enter the required information</string>
     <string name="hint_date">Today</string>
     <string name="hint_breakfast">Breakfast</string>

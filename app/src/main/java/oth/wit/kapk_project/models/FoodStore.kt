@@ -2,6 +2,9 @@ package oth.wit.kapk_project.models
 
 import timber.log.Timber.i
 
+interface FoodStoreChangeListener {
+    fun onFoodStoreChange()
+}
 
 interface FoodStore {
 
@@ -12,11 +15,15 @@ interface FoodStore {
     fun contains(food : FoodModel) : Boolean
     fun find(food : FoodModel) : FoodModel?
     fun count() : Int
-    fun replace(oldFood: FoodModel, newFoodModel: FoodModel) : Boolean
+    fun replace(oldFoodModel: FoodModel, newFoodModel: FoodModel) : Boolean
     operator fun get(index : Int) : FoodModel
 
-    public fun sumNutritionalValues() : NutritionalValues {
-        var nv = NutritionalValues(ServingSize(),0.0,0.0,0.0,0.0)
+    fun addFoodStoreChangeListener( listener : FoodStoreChangeListener )
+
+    fun removeFoodStoreChangeListener( listener : FoodStoreChangeListener )
+
+    fun sumNutritionalValues() : NutritionalValues {
+        val nv = NutritionalValues(ServingSize(),0.0,0.0,0.0,0.0)
         for (food in listIterator()) {
             nv.caloriesInKcal += food.nutritionalValues.caloriesInKcal
             nv.carbsInG += food.nutritionalValues.carbsInG

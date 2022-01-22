@@ -23,9 +23,9 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
 
     var db : DatabaseReference = FirebaseDatabase.getInstance("https://kapk-project-default-rtdb.europe-west1.firebasedatabase.app").getReference(branch)
 
-    lateinit var task : Task<DataSnapshot>
+    var task : Task<DataSnapshot>
 
-    lateinit var st : StorageReference
+    private var listeners = ArrayList<FoodStoreChangeListener>()
 
     init {
 
@@ -49,6 +49,18 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
 
     }
 
+    override fun addFoodStoreChangeListener(listener : FoodStoreChangeListener ) {
+        listeners.add(listener)
+    }
+
+    override fun removeFoodStoreChangeListener(listener : FoodStoreChangeListener ) {
+        listeners.remove(listener)
+    }
+
+    private fun fireFoodStoreChangeListeners() {
+        for ( listener in listeners )
+            listener.onFoodStoreChange()
+    }
     fun getQueryTask() : Task<DataSnapshot> {
         return task
     }
@@ -70,23 +82,30 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
             food.fbId = key
             db.child(key).setValue(food)
         }
-        return foods.add(food)
+        val ret = foods.add(food)
+        fireFoodStoreChangeListeners()
+        return ret
     }
 
     override fun remove(food: FoodModel): Boolean {
         db.child(food.fbId).removeValue()
-        return foods.remove(food)
+        val ret = foods.remove(food)
+        fireFoodStoreChangeListeners()
+        return ret
     }
 
-    override fun replace(oldFood: FoodModel, newFood: FoodModel): Boolean {
-        db.child(oldFood.fbId).setValue(newFood)
-        foods.removeIf{ f -> f.fbId == oldFood.fbId }
-        return foods.add(newFood)
+    override fun replace(oldFoodModel: FoodModel, newFoodModel: FoodModel): Boolean {
+        db.child(oldFoodModel.fbId).setValue(newFoodModel)
+        foods.removeIf{ f -> f.fbId == oldFoodModel.fbId }
+        val ret = foods.add(newFoodModel)
+        fireFoodStoreChangeListeners()
+        return ret
     }
 
     override fun clear() {
         db.removeValue()
         foods.clear()
+        fireFoodStoreChangeListeners()
     }
 
     override fun contains(food: FoodModel): Boolean {
@@ -107,10 +126,6 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
 
     override fun get(index: Int) : FoodModel{
         return foods[index]
-    }
-
-    fun createReference() {
-        db = Firebase.database.reference
     }
 
     override fun toArrayList(): ArrayList<FoodModel> {

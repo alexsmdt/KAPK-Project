@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
-import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityNutritionalValuesBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
@@ -31,11 +30,9 @@ class NutritionalValuesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var edit = false
-
         binding = ActivityNutritionalValuesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        food = intent.getParcelableExtra<FoodModel>("food")!!   //To-Do überarbeiten
+        food = intent.getParcelableExtra("food")!!
         binding.toolbarCreate.title = "Nutritional Values " + food.productName
         setSupportActionBar(binding.toolbarCreate)
 
@@ -48,7 +45,7 @@ class NutritionalValuesActivity : AppCompatActivity() {
 
         val units = arrayOf("g", "ml")
 
-        spinner.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, units)
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, units)
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -71,39 +68,48 @@ class NutritionalValuesActivity : AppCompatActivity() {
 
         i("before intent usage")
 
-        if (intent.hasExtra("food_edit")) {
-            edit = true
-            binding.calories.setText(food.nutritionalValues.caloriesInKcal.toString())
-            binding.fat.setText(food.nutritionalValues.fatInG.toString())
-            binding.protein.setText(food.nutritionalValues.proteinInG.toString())
-            binding.carbs.setText(food.nutritionalValues.carbsInG.toString())
-            binding.servingSize.setText(food.nutritionalValues.servingSize.amount.toString() + " " + food.nutritionalValues.servingSize.unit)
-        }
-
-
-        binding.btnCreate.setOnClickListener() {
+        binding.btnCreate.setOnClickListener {
             val nutritionalValues = NutritionalValues()
-            nutritionalValues.caloriesInKcal = binding.calories.text.toString().toDouble()
-            nutritionalValues.fatInG = binding.fat.text.toString().toDouble()
-            nutritionalValues.proteinInG = binding.protein.text.toString().toDouble()
-            nutritionalValues.carbsInG = binding.carbs.text.toString().toDouble()
-            val sz = binding.servingSize.text.toString()
-            nutritionalValues.servingSize = ServingSize(sz.toDouble(), unitSpecification)
-            /*
-            if (nutritionalValues.servingSize == ServingSize()) {
-                Snackbar
-                    .make(it,R.string.enter_nutritional_information, Snackbar.LENGTH_LONG)
-                    .show()
+            //nutritionalValues.caloriesInKcal = binding.calories.text.toString().toDouble()
+
+            var value = binding.calories.text.toString().toDoubleOrNull()
+            if (value == null) {
+                Snackbar.make(it, "Calories: Not a number", Snackbar.LENGTH_LONG).show()
             } else {
+                nutritionalValues.caloriesInKcal = value
+                value = binding.fat.text.toString().toDoubleOrNull()
+                if ( value == null ) {
+                    Snackbar.make(it, "Fat: Not a number", Snackbar.LENGTH_LONG).show()
+                } else {
+                    nutritionalValues.fatInG = value
+                    value = binding.protein.text.toString().toDoubleOrNull()
+                    if ( value == null ) {
+                        Snackbar.make(it, "Protein: Not a number", Snackbar.LENGTH_LONG).show()
+                    } else {
+                        nutritionalValues.proteinInG = value
+                        value = binding.carbs.text.toString().toDoubleOrNull()
+                        if ( value == null ) {
+                            Snackbar.make(it, "Carbs: Not a number", Snackbar.LENGTH_LONG).show()
+                        } else {
+                            nutritionalValues.carbsInG = value
+                            value = binding.servingSize.text.toString().toDoubleOrNull()
+                            if ( value == null ) {
+                                Snackbar.make(it, "Serving size: Not a number", Snackbar.LENGTH_LONG).show()
+                            } else {
+                                nutritionalValues.servingSize = ServingSize(value, unitSpecification)
+                                food.nutritionalValues = nutritionalValues
+                                app.foods.add(food)
+                                i("ALEX $food")
+                                setResult(RESULT_OK)
+                                finish()
+                            }
+                        }
+                    }
+                }
+            }
 
-             */
-            food.nutritionalValues = nutritionalValues
-            app.foods.add(food)
-            i("ALEX $food")
+            i("ALEX continue Button Pressed")
 
-            i("continue Button Pressed: $food.brand ${food.productName}")
-            setResult(RESULT_OK)
-            finish()
         }
     }
 

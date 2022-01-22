@@ -1,5 +1,6 @@
 package oth.wit.kapk_project.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,15 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.adapters.ConsumedFoodAdapter
 import oth.wit.kapk_project.adapters.ConsumedFoodListener
-import oth.wit.kapk_project.adapters.FoodAdapter
-import oth.wit.kapk_project.adapters.FoodListener
 import oth.wit.kapk_project.databinding.ActivityConsumedMealBinding
-import oth.wit.kapk_project.databinding.ActivityFoodListBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.FoodModel
-import oth.wit.kapk_project.models.FoodStore
 import oth.wit.kapk_project.models.MealType
-import timber.log.Timber
 import timber.log.Timber.i
 
 class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
@@ -55,7 +51,7 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        i("ALEX MealListActivity.onOptionsitemSelected()")
+        i("ALEX MealListActivity.onOptionsItemSelected()")
         when (item.itemId) {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, FoodListActivity::class.java)
@@ -68,7 +64,7 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
                 finish()
             }
         }
-        i("ALEX end of MealListActivity.onOptionsitemSelected()")
+        i("ALEX end of MealListActivity.onOptionsItemSelected()")
         return super.onOptionsItemSelected(item)
     }
 
@@ -97,6 +93,7 @@ class MealListActivity : AppCompatActivity(), ConsumedFoodListener {
         i("ALEX end of MealListActivity.loadFoods()")
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun showFoods (foods: MutableList<FoodModel>) {
         i("ALEX MealListActivity.showFoods()")
         binding.recyclerView.adapter = ConsumedFoodAdapter(foods, this)

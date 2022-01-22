@@ -1,16 +1,16 @@
 package oth.wit.kapk_project.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.opengl.Visibility
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.View.INVISIBLE
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import androidx.activity.result.ActivityResultLauncher
+import android.view.inputmethod.InputMethodManager
+import com.google.android.material.snackbar.Snackbar
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityAddConsumedFoodBinding
 import oth.wit.kapk_project.main.MainApp
@@ -19,14 +19,25 @@ import oth.wit.kapk_project.models.MealType
 import oth.wit.kapk_project.models.NutritionalValues
 import timber.log.Timber.i
 
+fun AppCompatActivity.hideKeyboard() {
+    val view = this.currentFocus
+    if (view != null) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+    // else {
+    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+    // }
+}
+
 class AddConsumedFoodActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddConsumedFoodBinding
     lateinit var food : FoodModel
-    lateinit var consumedFood : FoodModel
+    private lateinit var consumedFood : FoodModel
     lateinit var app: MainApp
-    lateinit var meal : MealType
-    var edit : Boolean = false
+    private lateinit var meal : MealType
+    private var edit : Boolean = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +53,7 @@ class AddConsumedFoodActivity : AppCompatActivity() {
 
         app = application as MainApp
 
-        food = intent.getParcelableExtra<FoodModel>("food")!!
+        food = intent.getParcelableExtra("food")!!
         edit = intent.getBooleanExtra("edit",false)
 
         consumedFood = food.copy()
@@ -54,12 +65,12 @@ class AddConsumedFoodActivity : AppCompatActivity() {
             binding.deleteImageButton.visibility = INVISIBLE
         }
         else {
-            binding.deleteImageButton.setOnClickListener() {
+            binding.deleteImageButton.setOnClickListener {
                 app.consumedFoods.remove(food)
                 setResult(RESULT_OK)
                 finish()
             }
-            binding.editImageButton.setOnClickListener() {
+            binding.editImageButton.setOnClickListener {
                 app.consumedFoods.replace(food,consumedFood)
                 setResult(RESULT_OK)
                 finish()
@@ -69,8 +80,8 @@ class AddConsumedFoodActivity : AppCompatActivity() {
 
         i("ALEX $food")
 
-        var nv = consumedFood.nutritionalValues
-        var sz = nv.servingSize
+        val nv = consumedFood.nutritionalValues
+        val sz = nv.servingSize
 
         binding.brandTextView.text = consumedFood.brand
         binding.nameTextView.text = consumedFood.productName
@@ -81,17 +92,23 @@ class AddConsumedFoodActivity : AppCompatActivity() {
         refreshNutritionalValues(nv)
 
         binding.servingSizeEditTextNumber.setOnEditorActionListener {
-            v, actionId, event ->
+            v , actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE) {
-                nv.updateServingSize(binding.servingSizeEditTextNumber.text.toString().toDouble())
-                refreshNutritionalValues(nv)
+                val value = binding.servingSizeEditTextNumber.text.toString().toDoubleOrNull()
+                if (value == null) {
+                    Snackbar.make(v, "Invalid input: Not a number", Snackbar.LENGTH_LONG).show()
+                } else {
+                    nv.updateServingSize(binding.servingSizeEditTextNumber.text.toString().toDouble())
+                    refreshNutritionalValues(nv)
+                }
+                hideKeyboard()
                 true
             } else {
                 false
             }
         }
 
-        binding.addImageButton.setOnClickListener() {
+        binding.addImageButton.setOnClickListener {
             app.consumedFoods.add(consumedFood)
             setResult(RESULT_OK)
             finish()

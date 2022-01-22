@@ -3,11 +3,8 @@ package oth.wit.kapk_project.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import oth.wit.kapk_project.databinding.CardConsumedFoodBinding
 import oth.wit.kapk_project.databinding.CardFoodBinding
 import oth.wit.kapk_project.models.FoodModel
-import oth.wit.kapk_project.models.FoodStore
-import oth.wit.kapk_project.models.MealType
 
 interface ConsumedFoodListener {
     fun onFoodClick(food : FoodModel)

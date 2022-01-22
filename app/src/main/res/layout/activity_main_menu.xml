@@ -114,35 +114,36 @@
 
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp">
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/carbsTextNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:gravity="center_horizontal"
-                                android:inputType="number"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                android:textSize="16sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/proteinTextNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:gravity="center_horizontal"
-                                android:inputType="number" />
+                                android:textSize="16sp" />
 
-                            <EditText
+                            <TextView
                                 android:id="@+id/fatTextNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ems="10"
                                 android:gravity="center_horizontal"
-                                android:inputType="number" />
+                                android:textSize="16sp" />
                         </TableRow>
 
                         <TableRow

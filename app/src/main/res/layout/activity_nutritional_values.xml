@@ -53,7 +53,7 @@
                         android:layout_weight="1"
                         android:autofillHints="hint"
                         android:hint="@string/hint_servingSize"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:maxLength="25"
                         android:maxLines="1"
                         android:padding="8dp"
@@ -75,7 +75,7 @@
                     android:layout_margin="8dp"
                     android:autofillHints="hint"
                     android:hint="@string/hint_calories"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
@@ -88,7 +88,7 @@
                     android:layout_margin="8dp"
                     android:autofillHints="hint"
                     android:hint="@string/hint_fat"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
@@ -101,11 +101,11 @@
                     android:layout_margin="8dp"
                     android:autofillHints="hint"
                     android:hint="@string/hint_carbs"
-                    android:inputType="text"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:inputType="number" />
 
                 <EditText
                     android:id="@+id/protein"
@@ -114,11 +114,11 @@
                     android:layout_margin="8dp"
                     android:autofillHints="hint"
                     android:hint="@string/hint_protein"
-                    android:inputType="text"
                     android:maxLength="25"
                     android:maxLines="1"
                     android:padding="8dp"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:inputType="number" />
 
                 <Button
                     android:id="@+id/btnCreate"

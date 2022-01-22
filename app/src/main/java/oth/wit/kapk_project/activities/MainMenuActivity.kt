@@ -7,32 +7,18 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import oth.wit.kapk_project.R
 import oth.wit.kapk_project.databinding.ActivityMainMenuBinding
 import oth.wit.kapk_project.main.MainApp
 import oth.wit.kapk_project.models.MealType
-import oth.wit.kapk_project.models.NutritionalValues
-import oth.wit.kapk_project.models.ServingSize
-import timber.log.Timber
 import timber.log.Timber.i
 
 class MainMenuActivity : AppCompatActivity() {
@@ -41,7 +27,7 @@ class MainMenuActivity : AppCompatActivity() {
     lateinit var app: MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
-    lateinit var toogle : ActionBarDrawerToggle
+    private lateinit var toggle : ActionBarDrawerToggle
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +42,11 @@ class MainMenuActivity : AppCompatActivity() {
         val navView : NavigationView = findViewById(R.id.nav_view)
 
 
-        toogle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
 
-        drawerLayout.addDrawerListener(toogle)
+        drawerLayout.addDrawerListener(toggle)
 
-        toogle.syncState()
+        toggle.syncState()
 
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -70,7 +56,6 @@ class MainMenuActivity : AppCompatActivity() {
 
         val appSettingPrefs: SharedPreferences = getSharedPreferences("appSettingPrefs", 0)
         val sharedPrefsEdit : SharedPreferences.Editor = appSettingPrefs.edit()
-        val isNightModeOn : Boolean = appSettingPrefs.getBoolean("NightMode", false)
 
         /*
         val user : TextView = findViewById(R.id.user_name)
@@ -101,19 +86,19 @@ class MainMenuActivity : AppCompatActivity() {
 
         setTextViews()
 
-        binding.breakfastButton.setOnClickListener() {
+        binding.breakfastButton.setOnClickListener {
             buttonPressed(MealType.BREAKFAST)
         }
 
-        binding.lunchButton.setOnClickListener() {
+        binding.lunchButton.setOnClickListener {
             buttonPressed(MealType.LUNCH)
         }
 
-        binding.dinnerButton.setOnClickListener() {
+        binding.dinnerButton.setOnClickListener {
             buttonPressed(MealType.DINNER)
         }
 
-        binding.snacksButton.setOnClickListener() {
+        binding.snacksButton.setOnClickListener {
             buttonPressed(MealType.SNACKS)
         }
 
@@ -122,8 +107,8 @@ class MainMenuActivity : AppCompatActivity() {
 
     private fun buttonPressed (meal : MealType) {
         i("ALEX MainMenuActivity go to MealListActivity")
-        Timber.i("button pressed: %s", meal)
-        var launcherIntent = Intent(this, MealListActivity::class.java)
+        i("button pressed: %s", meal)
+        val launcherIntent = Intent(this, MealListActivity::class.java)
 
         launcherIntent.putExtra("meal", meal.name)
         refreshIntentLauncher.launch(launcherIntent)
@@ -159,15 +144,9 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun changeMode(sharedPrefsEdit : SharedPreferences.Editor) {
-        i("ALEX change Mode before if")
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-            i("ALEX no night mode")
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            i("ALEX set Night mode yes")
-            //sharedPrefsEdit.putBoolean("NightMode", true)
-            i("ALEX sharedprefs")
-            //sharedPrefsEdit.apply()
-            i("ALEX sharedprefs apply")
+
         }
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

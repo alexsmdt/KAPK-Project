@@ -2,12 +2,9 @@ package oth.wit.kapk_project.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import oth.wit.kapk_project.databinding.CardFoodBinding
 import oth.wit.kapk_project.models.FoodModel
-import oth.wit.kapk_project.models.FoodStore
 import java.util.*
 
 interface FoodListener {

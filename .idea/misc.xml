@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_consumed_food.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_barcode_scan.xml" value="0.3587962962962963" />
+        <entry key="app/src/main/res/layout/activity_change_mode.xml" value="0.2828703703703704" />
         <entry key="app/src/main/res/layout/activity_consumed_meal.xml" value="0.19212962962962962" />
         <entry key="app/src/main/res/layout/activity_food_add.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/activity_food_list.xml" value="0.4036458333333333" />

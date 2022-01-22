@@ -16,16 +16,8 @@ class MainApp : Application() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         Timber.plant(Timber.DebugTree())
-        //foods = FoodMemStore()
-        //foods = FoodJSONStore(applicationContext, "foods")
-        //foods = FireFoodStore(applicationContext, "foods")
-        //foods.clear()
 
-        //consumedFoods = FoodJSONStore(applicationContext, "consumedFoods")
-        //consumedFoods = FireFoodStore(applicationContext, "consumedFoods")
-        //consumedFoods.clear()
-
-        i("ALEX Placemark started")
+        i("ALEX FoodTracker started")
 
     }
 
