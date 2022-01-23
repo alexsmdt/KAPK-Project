@@ -18,6 +18,7 @@ class MainApp : Application() {
         Timber.plant(Timber.DebugTree())
 
 
+
         i("ALEX FoodTracker started")
 
     }
