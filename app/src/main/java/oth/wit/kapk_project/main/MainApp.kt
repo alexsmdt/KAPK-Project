@@ -17,6 +17,7 @@ class MainApp : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         Timber.plant(Timber.DebugTree())
 
+
         i("ALEX FoodTracker started")
 
     }
