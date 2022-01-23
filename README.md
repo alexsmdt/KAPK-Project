@@ -17,7 +17,7 @@ For persistence, I used the Firebase Relative Database. All conventional databas
 
 ## User Interface
 
-I tried to make the app as user-friendly as possible. The app uses app navigation via menus, simple UI elements, spinners to select product categories for example, a Nav Drawer and other elements. Furthermore I implemented an animated SplashScren, as well as the possibility to switch betwenn Night and Normal Mode
+I tried to make the app as user-friendly as possible. The app uses app navigation via menus, simple UI elements, spinners to select product categories for example, a Nav Drawer and other elements. Furthermore I implemented an animated SplashScren, as well as the possibility to switch between Night and Normal Mode
 
 ## Sample app run-through
 
@@ -31,7 +31,7 @@ To continue using the app, the user must now press one of the Meal buttons to ad
 
 If you want to add something to the meal, you can do so by pressing the button in the upper right corner. A new activity opens with a list of globally available products in the database. With a SearchBar a filtering can be done by product name, brand or barcode by scan.
 
-If your desired product does not exist, it can be newly created in the database. Two activities are used to guide you through the process of creating a new product. Again a barcode scanner can be used for adding a produkts barcode.
+If your desired product does not exist, it can be newly created in the database. Two activities are used to guide you through the process of creating a new product. Again a barcode scanner can be used for adding a products barcode. A barcode can be scanned directly by using the camera or by accessing your local data, respective your Google Drive.
 
 Now, if you want to add a selected product to the consumed ones, you have to click on the product and specify the serving size within the next activity. 
 
