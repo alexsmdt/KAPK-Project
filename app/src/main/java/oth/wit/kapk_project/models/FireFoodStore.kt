@@ -41,6 +41,9 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
                 map =
                     it.getValue<HashMap<String, FoodModel>?>() as HashMap<String, FoodModel>
                 foods = ArrayList(map.values).toMutableList()
+                foods.sortBy{
+                    it.brand
+                }
 
             }
         }.addOnFailureListener {
@@ -83,6 +86,9 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
             db.child(key).setValue(food)
         }
         val ret = foods.add(food)
+        foods.sortBy{
+            it.brand
+        }
         fireFoodStoreChangeListeners()
         return ret
     }
@@ -90,6 +96,9 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
     override fun remove(food: FoodModel): Boolean {
         db.child(food.fbId).removeValue()
         val ret = foods.remove(food)
+        foods.sortBy{
+            it.brand
+        }
         fireFoodStoreChangeListeners()
         return ret
     }
@@ -98,6 +107,9 @@ class FireFoodStore(private val context: Context, branch : String, child : Strin
         db.child(oldFoodModel.fbId).setValue(newFoodModel)
         foods.removeIf{ f -> f.fbId == oldFoodModel.fbId }
         val ret = foods.add(newFoodModel)
+        foods.sortBy{
+            it.brand
+        }
         fireFoodStoreChangeListeners()
         return ret
     }

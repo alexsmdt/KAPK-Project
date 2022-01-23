@@ -207,6 +207,11 @@ class FoodListActivity : AppCompatActivity(), FoodListener , FoodStoreChangeList
                         binding.productSearch.setQuery(barcode.displayValue,true)
                         i("ALEX format ean13 recognized")
                     }
+                    else -> {
+                        i("ALEX unknown format $format recognized")
+                        binding.productSearch.setQuery(barcode.displayValue,true)
+                        i("ALEX format  recognized")
+                    }
                 }
             }
             i("ALEX end of BarcodeScanner.onSuccessListener()")
